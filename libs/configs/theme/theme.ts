@@ -29,34 +29,26 @@ declare module '@mui/material' {
 
 const defaultTheme: Theme = createTheme({
   palette: {
-    common: {
-      white: base.bg_light,
-      black: mono[500],
-    },
+    mode: 'light',
     primary: {
       main: base.primary,
-      light: base.bg_light,
-      contrastText: base.primary,
+      light: base.primary_pale,
     },
-    grey: {
-      900: mono[900],
-      600: mono[600],
-      500: mono[500],
-      200: mono[200],
-      50: mono[50],
+    error: {
+      main: statusColors.error,
+      light: statusColors.error_pale,
+    },
+    warning: {
+      main: statusColors.warn,
+      light: statusColors.warn_pale,
     },
     success: {
       main: statusColors.success,
+      light: statusColors.success_pale,
     },
     info: {
       main: statusColors.assistant,
-    },
-    background: {
-      default: base.bg_secondary,
-    },
-    text: {
-      primary: mono[900],
-      secondary: mono[600],
+      light: statusColors.assistant_pale,
     },
     base,
     status: statusColors,
