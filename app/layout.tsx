@@ -1,6 +1,11 @@
 import { AxiosInterceptor } from '@/libs/configs'
 import { ThemeProvider } from '@/libs/providers'
 
+import 'swiper/css'
+import 'swiper/css/navigation'
+import 'swiper/css/pagination'
+import 'swiper/css/scrollbar'
+
 export default function RootLayout({
   children,
 }: {
