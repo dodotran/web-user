@@ -3,7 +3,7 @@
 import type { Theme } from '@mui/material'
 import { createTheme } from '@mui/material'
 import { grey } from '@mui/material/colors'
-import { Noto_Sans_JP } from 'next/font/google'
+import { Noto_Sans_JP, Quicksand } from 'next/font/google'
 import { base, mono, statusColors } from './colors'
 
 export const notoSanJP = Noto_Sans_JP({
@@ -11,6 +11,12 @@ export const notoSanJP = Noto_Sans_JP({
   subsets: ['latin'],
   display: 'swap',
   fallback: ['Helvetica', 'Arial', 'sans-serif'],
+})
+
+export const quicksand = Quicksand({
+  subsets: ['latin'], // Define character sets based on your usage
+  weight: ['400', '500', '700'], // Choose weights as needed
+  style: 'normal', // Choose 'italic' if needed
 })
 
 declare module '@mui/material' {
@@ -96,9 +102,9 @@ const defaultTheme: Theme = createTheme({
       fontWeight: 500,
     },
     button: {
-      fontFamily: notoSanJP.style.fontFamily,
+      fontFamily: quicksand.style.fontFamily,
     },
-    fontFamily: notoSanJP.style.fontFamily,
+    fontFamily: quicksand.style.fontFamily,
   },
   components: {
     MuiButton: {

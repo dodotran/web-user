@@ -1,5 +1,8 @@
+"use client";
 import { AxiosInterceptor } from '@/libs/configs'
 import { ThemeProvider } from '@/libs/providers'
+import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
+import { useState } from 'react'
 
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -11,6 +14,16 @@ export default function RootLayout({
 }: {
   children: React.ReactNode
 }) {
+  const [queryClient] = useState(
+    () =>
+      new QueryClient({
+        defaultOptions: {
+          queries: {
+            refetchOnWindowFocus: false, // default: true
+          },
+        },
+      })
+  );
   return (
     <html lang="en">
       <body>
@@ -19,7 +32,9 @@ export default function RootLayout({
             key: 'theme-provider',
           }}
         >
-          <AxiosInterceptor>{children}</AxiosInterceptor>
+          <QueryClientProvider client={queryClient}>
+            <AxiosInterceptor>{children}</AxiosInterceptor>
+          </QueryClientProvider>
         </ThemeProvider>
       </body>
     </html>
