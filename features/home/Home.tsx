@@ -1,5 +1,15 @@
-import { Carousel } from './components'
+import { Carousel, CategoryCarousel, NewRelease, News } from './components'
 
 export const Home = () => {
-  return <Carousel />
+  return (
+    <>
+      <Carousel />
+
+      <News />
+
+      <CategoryCarousel />
+
+      <NewRelease />
+    </>
+  )
 }
