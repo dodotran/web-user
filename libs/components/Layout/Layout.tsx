@@ -2,6 +2,7 @@
 
 import { Box, BoxProps, Stack, styled } from '@mui/material'
 import React from 'react'
+import { Footer } from './Footer'
 import { Header, HEADER_HEIGHT } from './Header'
 
 type LayoutType = BoxProps<
@@ -23,6 +24,7 @@ const LayoutPage: React.FC<LayoutType> = ({
     <Stack direction="column">
       <Header />
       <ContentPage {...contentProps}>{children}</ContentPage>
+      <Footer />
     </Stack>
   )
 }
