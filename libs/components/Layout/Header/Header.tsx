@@ -83,13 +83,15 @@ export const Header = () => {
           gap={2}
           alignItems="center"
         >
-          <IconButton>
+          <IconButton href='/auth'>
             <AccountCircleIcon />
           </IconButton>
           <IconButton sx={{
             position: 'relative',
             cursor: 'pointer',
-          }}>
+          }}
+            href='/cart'
+          >
             <ShoppingCartIcon />
             <Typography sx={{
               position: 'absolute',

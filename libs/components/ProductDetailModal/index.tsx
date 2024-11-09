@@ -1,7 +1,10 @@
+"use client"
+import { base } from '@/libs/configs';
 import { formatMoney } from '@/utils';
 import { cartState } from '@/utils/recoil';
 import CloseIcon from '@mui/icons-material/Close';
 import { Box, Button, IconButton, Modal, Typography } from '@mui/material';
+import Image from 'next/image';
 import { useState } from 'react';
 import { useRecoilState } from 'recoil';
 
@@ -26,7 +29,6 @@ const ProductDetailModal = ({ open, handleClose, product }) => {
     handleClose();
   };
 
-  console.log('cartList', cartList);
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -48,16 +50,18 @@ const ProductDetailModal = ({ open, handleClose, product }) => {
           <CloseIcon />
         </IconButton>
 
-        <Box sx={{ display: 'flex' }}>
+        <Box sx={{ display: 'flex', gap: 5 }}>
           {/* Image Section */}
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
-            <img
+            <Image
               src={product.image} // Replace with actual image link
               alt={product.name}
-              style={{ width: '100%', height: 'auto', borderRadius: 8 }}
+              width={400}
+              height={400}
+              objectFit='cover'
+              layout='responsive'
             />
           </Box>
-
           <Box
             sx={{
               display: 'flex',
@@ -140,10 +144,10 @@ const ProductDetailModal = ({ open, handleClose, product }) => {
               variant="contained"
               color="error"
               fullWidth
-              sx={{ mb: 2 }}
+              sx={{ mb: 2, backgroundColor: base.primary, color: base.white }}
               onClick={handleAddToCart}
             >
-              Thêm vào giỏ
+              Thêm vào giỏ hàng
             </Button>
 
             {/* Social Share Buttons */}
