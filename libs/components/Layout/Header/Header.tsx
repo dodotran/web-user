@@ -1,14 +1,17 @@
+import { cartState } from '@/utils/recoil'
 import AccountCircleIcon from '@mui/icons-material/AccountCircle'
 import NotificationsIcon from '@mui/icons-material/Notifications'
 import SearchIcon from '@mui/icons-material/Search'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import { IconButton, Stack, Typography } from '@mui/material'
 import Link from 'next/link'
+import { useRecoilValue } from 'recoil'
 import { menu } from './menu'
 
 export const HEADER_HEIGHT = 120
 
 export const Header = () => {
+  const cart = useRecoilValue(cartState)
   return (
     <Stack
       left={0}
@@ -83,8 +86,24 @@ export const Header = () => {
           <IconButton>
             <AccountCircleIcon />
           </IconButton>
-          <IconButton>
+          <IconButton sx={{
+            position: 'relative',
+            cursor: 'pointer',
+          }}>
             <ShoppingCartIcon />
+            <Typography sx={{
+              position: 'absolute',
+              top: 0,
+              right: 0,
+              backgroundColor: 'red',
+              color: 'white',
+              borderRadius: '50%',
+              width: '20px',
+              height: '20px',
+              display: 'flex',
+              justifyContent: 'center',
+              alignItems: 'center',
+            }}>{cart?.length}</Typography>
           </IconButton>
           <IconButton>
             <SearchIcon />
