@@ -142,7 +142,7 @@ function Service() {
         <Grid container spacing={4}>
           {
             devices?.map((device) => (
-              <Grid item xs={6} md={3} key={device?.id}>
+              <Grid item xs={12} md={3} key={device?.id}>
                 <ProductCard product={device} />
               </Grid>
             ))

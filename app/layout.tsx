@@ -3,6 +3,7 @@ import { AxiosInterceptor } from '@/libs/configs'
 import { ThemeProvider } from '@/libs/providers'
 import { QueryClient, QueryClientProvider } from '@tanstack/react-query'
 import { useState } from 'react'
+import { RecoilRoot } from 'recoil';
 
 import 'swiper/css'
 import 'swiper/css/navigation'
@@ -32,9 +33,11 @@ export default function RootLayout({
             key: 'theme-provider',
           }}
         >
-          <QueryClientProvider client={queryClient}>
-            <AxiosInterceptor>{children}</AxiosInterceptor>
-          </QueryClientProvider>
+          <RecoilRoot>
+            <QueryClientProvider client={queryClient}>
+              <AxiosInterceptor>{children}</AxiosInterceptor>
+            </QueryClientProvider>
+          </RecoilRoot>
         </ThemeProvider>
       </body>
     </html>
