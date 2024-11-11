@@ -1,23 +1,26 @@
 // LoginForm.js
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { TextField, Button, Typography } from '@mui/material';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
+import { yupResolver } from '@hookform/resolvers/yup'
+import { Button, TextField, Typography } from '@mui/material'
+import { Controller, useForm } from 'react-hook-form'
+import * as yup from 'yup'
 
 const schema = yup.object().shape({
-  email: yup.string().email("Email không hợp lệ").required("Email là bắt buộc"),
-  password: yup.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự").required("Mật khẩu là bắt buộc"),
-});
+  email: yup.string().email('Email không hợp lệ').required('Email là bắt buộc'),
+  password: yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Mật khẩu là bắt buộc'),
+})
 
 export default function LoginForm({ onSwitch }) {
-  const { handleSubmit, control, formState: { errors } } = useForm({
+  const {
+    handleSubmit,
+    control,
+    formState: { errors },
+  } = useForm({
     resolver: yupResolver(schema),
-  });
+  })
 
   const onSubmit = (data) => {
-    console.log("Login Data:", data);
-  };
+    console.log('Login Data:', data)
+  }
 
   return (
     <form onSubmit={handleSubmit(onSubmit)}>
@@ -33,7 +36,7 @@ export default function LoginForm({ onSwitch }) {
             margin="normal"
             fullWidth
             error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ""}
+            helperText={errors.email ? errors.email.message : ''}
           />
         )}
       />
@@ -49,7 +52,7 @@ export default function LoginForm({ onSwitch }) {
             margin="normal"
             fullWidth
             error={!!errors.password}
-            helperText={errors.password ? errors.password.message : ""}
+            helperText={errors.password ? errors.password.message : ''}
           />
         )}
       />
@@ -57,8 +60,11 @@ export default function LoginForm({ onSwitch }) {
         Đăng nhập
       </Button>
       <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-        Chưa có tài khoản? <Button onClick={onSwitch} variant="text" color="primary">Đăng ký ngay</Button>
+        Chưa có tài khoản?{' '}
+        <Typography onClick={onSwitch} color="primary" variant="body2">
+          Đăng ký ngay
+        </Typography>
       </Typography>
     </form>
-  );
+  )
 }

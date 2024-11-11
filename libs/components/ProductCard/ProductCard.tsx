@@ -1,62 +1,91 @@
 'use client'
 
+import { DeviceType } from '@/features'
 import VisibilityIcon from '@mui/icons-material/Visibility'
-import { Box, IconButton, Stack, Typography } from '@mui/material'
+import { Box, IconButton, Paper, Typography } from '@mui/material'
 import Image from 'next/image'
-import { useRouter } from 'next/navigation'
-import { useState } from 'react'
-import { PreviewModal } from './PreviewModal'
-import { ProductCardContainer } from './styled'
+import React from 'react'
+import ProductDetailModal from '../ProductDetailModal'
 
-export const ProductCard = () => {
-  const [open, setOpen] = useState(false)
-  const handleOpen = () => setOpen(true)
-  const handleClose = () => setOpen(false)
-  const router = useRouter()
+export const ProductCard = (product: DeviceType) => {
+  const [openDetail, setOpenDetail] = React.useState(false)
 
   return (
-    <ProductCardContainer>
-      <Stack gap={2}>
-        <Box>
+    <Paper
+      sx={{
+        boxShadow: 1,
+      }}
+    >
+      <Box
+        sx={{
+          padding: 2,
+          display: 'flex',
+          flexDirection: 'column',
+        }}
+      >
+        <Box
+          sx={{
+            position: 'relative',
+            display: 'flex',
+            justifyContent: 'center',
+            cursor: 'pointer',
+            '& img': {
+              transition: 'transform 0.4s ease-in-out', // Đặt transition ở trạng thái gốc
+              willChange: 'transform',
+            },
+            '&:hover img': {
+              transform: 'scale(1.05)', // Hiệu ứng scale khi hover
+            },
+            '& > button': {
+              visibility: 'hidden',
+              opacity: 0,
+              transition: 'opacity 0.3s ease-in-out, visibility 0s linear 0.3s', // Đặt transition ở trạng thái gốc
+            },
+            '&:hover > button': {
+              visibility: 'visible',
+              opacity: 1,
+              transition: 'opacity 0.3s ease-in-out, visibility 0s linear 0s', // Tạo hiệu ứng xuất hiện khi hover
+            },
+          }}
+        >
           <Image
-            src="https://product.hstatic.net/200000719085/product/81_44beb0c7734440d28f3706a1344b727f_large.jpg"
-            width={400}
-            height={400}
-            style={{
-              objectFit: 'contain',
-              width: '100%',
-              aspectRatio: '1 / 2.5',
-            }}
-            alt="card-product"
+            src={
+              product.image ??
+              'https://mayanh24h.com/upload/assets/thumb/catalog/san-pham/phu-kien-may-anh/den-flash-led/godox-tt350/den-flash-godox-tt350.jpg'
+            }
+            alt={product.name}
+            width={4}
+            height={4}
+            layout="responsive"
           />
-
-          <IconButton onClick={handleOpen}>
+          <IconButton
+            sx={{
+              position: 'absolute',
+              top: '50%',
+              left: '50%',
+              transform: 'translate(-50%, -50%)',
+              backgroundColor: 'white',
+              ':hover': {
+                backgroundColor: 'white',
+              },
+            }}
+            onClick={() => setOpenDetail(true)}
+          >
             <VisibilityIcon />
           </IconButton>
         </Box>
-
-        <Stack>
-          <Typography color="mono.200" fontSize={12}>
-            LATIN
-          </Typography>
-
-          <Typography fontSize={16}>Set Songoku</Typography>
-        </Stack>
-      </Stack>
-
-      <Stack onClick={() => router.push('/products/1')}>
-        <Typography fontSize={16} fontWeight={700}>
-          Giá cho thuê: 200.000đ
+        <Typography variant="body2" sx={{ fontSize: '14px', fontWeight: 400, color: '#ccc', marginY: 2 }}>
+          Loại thiết bị
         </Typography>
-        <Typography fontSize={16} fontWeight={700}>
-          Giá membership: 200.000đ
+        <Typography variant="h6" sx={{ marginBottom: 1, cursor: 'pointer' }}>
+          {product.name}
         </Typography>
-        <Typography fontSize={16} fontWeight={700}>
-          Giá store: 200.000đ
-        </Typography>
-      </Stack>
+        <Typography variant="body1">Giá thuê ngày: {product.priceDay}</Typography>
+        <Typography variant="body1">Giá thuê tuần: {product.priceWeek}</Typography>
+        <Typography variant="body1">Giá thuê tháng: {product.priceMonth}</Typography>
+      </Box>
 
-      <PreviewModal open={open} handleClose={handleClose} />
-    </ProductCardContainer>
+      <ProductDetailModal open={openDetail} handleClose={() => setOpenDetail(false)} product={product} />
+    </Paper>
   )
 }

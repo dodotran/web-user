@@ -15,8 +15,4 @@ export const menu = [
     title: 'Liên hệ',
     href: '/contact',
   },
-  {
-    title: 'Đăng ký',
-    href: '/register',
-  },
 ]

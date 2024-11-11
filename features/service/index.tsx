@@ -1,5 +1,6 @@
 'use client'
-import ProductCard from '@/libs/components/ProductCard'
+
+import { ProductCard } from '@/libs/components/ProductCard/ProductCard'
 import { getAllDevice } from '@/service/product.service'
 import FilterListIcon from '@mui/icons-material/FilterList'
 import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
@@ -27,12 +28,10 @@ function Service() {
     setSortOption(value)
   }
 
-  const { data, isLoading } = useQuery({
+  const { data: devices, isLoading } = useQuery({
     queryKey: ['allDevice'],
     queryFn: () => getAllDevice(),
-  });
-
-  const devices: any = data
+  })
 
   return (
     <div>
@@ -47,7 +46,7 @@ function Service() {
       <Grid container spacing={5} alignItems={'center'}>
         <Grid item xs={12} md={6}>
           <img
-            src="https://theme.hstatic.net/200000719085/1001100454/14/collection_banner.jpg?v=155"
+            src="https://mayanh24h.com/upload/assets/2024/0817/ar/banner-may-quay-camera-action.png"
             width={'100%'}
             height={'100%'}
             alt=""
@@ -132,21 +131,21 @@ function Service() {
         </FormControl>
       </Box>
 
-      <Box sx={{
-        paddingX: 10,
-      }}>
+      <Box
+        sx={{
+          paddingX: 10,
+        }}
+      >
         <Typography variant="body2" component="p" margin={'20px 0'}>
-          {devices?.length} sản phẩm
+          {devices?.data.length ?? 0} sản phẩm
         </Typography>
 
         <Grid container spacing={4}>
-          {
-            devices?.map((device) => (
-              <Grid item xs={12} md={3} key={device?.id}>
-                <ProductCard product={device} />
-              </Grid>
-            ))
-          }
+          {devices?.data.map((device) => (
+            <Grid item xs={12} md={3} key={device?.id}>
+              <ProductCard {...device} />
+            </Grid>
+          ))}
         </Grid>
       </Box>
     </div>

@@ -14,7 +14,7 @@ export const Carousel = () => {
       <SwiperSlide>
         <Image
           alt="slide 1"
-          src="https://theme.hstatic.net/200000719085/1001100454/14/slide_4_img.jpg?v=155"
+          src="https://mayanh24h.com/upload/assets/2024/0817/ar/banner-may-quay-camera-action.png"
           width={1920}
           height={600}
           style={{ objectFit: 'cover', width: '100%' }}
@@ -23,7 +23,7 @@ export const Carousel = () => {
       <SwiperSlide>
         <Image
           alt="slide 1"
-          src="https://theme.hstatic.net/200000719085/1001100454/14/slide_4_img.jpg?v=155"
+          src="https://mayanh24h.com/upload/assets/2024/0817/ar/banner-may-quay-camera-action.png"
           width={1920}
           height={600}
           style={{ objectFit: 'cover', width: '100%' }}
@@ -32,7 +32,7 @@ export const Carousel = () => {
       <SwiperSlide>
         <Image
           alt="slide 1"
-          src="https://theme.hstatic.net/200000719085/1001100454/14/slide_4_img.jpg?v=155"
+          src="https://mayanh24h.com/upload/assets/2024/0817/ar/banner-may-quay-camera-action.png"
           width={1920}
           height={600}
           style={{ objectFit: 'cover', width: '100%' }}
@@ -41,7 +41,7 @@ export const Carousel = () => {
       <SwiperSlide>
         <Image
           alt="slide 1"
-          src="https://theme.hstatic.net/200000719085/1001100454/14/slide_4_img.jpg?v=155"
+          src="https://mayanh24h.com/upload/assets/2024/0817/ar/banner-may-quay-camera-action.png"
           width={1920}
           height={600}
           style={{ objectFit: 'cover', width: '100%' }}
@@ -50,7 +50,7 @@ export const Carousel = () => {
       <SwiperSlide>
         <Image
           alt="slide 1"
-          src="https://theme.hstatic.net/200000719085/1001100454/14/slide_4_img.jpg?v=155"
+          src="https://mayanh24h.com/upload/assets/2024/0817/ar/banner-may-quay-camera-action.png"
           width={1920}
           height={600}
           style={{ objectFit: 'cover', width: '100%' }}

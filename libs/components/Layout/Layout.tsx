@@ -14,12 +14,7 @@ type LayoutType = BoxProps<
   }
 >
 
-const LayoutPage: React.FC<LayoutType> = ({
-  children,
-  HeaderComponent,
-  disableSidebar = false,
-  ...contentProps
-}) => {
+const LayoutPage: React.FC<LayoutType> = ({ children, HeaderComponent, disableSidebar = false, ...contentProps }) => {
   return (
     <Stack direction="column">
       <Header />

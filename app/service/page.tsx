@@ -1,10 +1,5 @@
-import Service from '@/features/service'
-import React from 'react'
+import Service from '@/features/service/index'
 
-function page() {
-  return (
-    <Service />
-  )
+export default function Page() {
+  return <Service />
 }
-
-export default page
