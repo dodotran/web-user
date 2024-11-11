@@ -17,27 +17,25 @@ const NewsCard = () => {
       <Stack gap={4} alignItems="center">
         <Image
           alt="news"
-          src="https://theme.hstatic.net/200000719085/1001100454/14/img_home_banner_desktop_1.jpg?v=155"
+          src="https://mayanh24h.com/upload/assets/2024/0817/ar/banner-may-quay-camera-action.png"
           width={400}
           height={300}
           style={{ objectFit: 'cover', width: '100%' }}
         />
 
         <Typography fontWeight={400} fontSize={40} px={2}>
-          HIZU LADY
+          CAMERA
         </Typography>
 
         <Typography fontWeight={200} fontSize={18} px={2}>
-          Dòng sản phẩm Hizu Lady mang đến những mẫu trang phục tinh tế và sang
-          trọng. Với sự kết hợp hoàn hảo giữa thiết kế, chất liệu và màu sắc,
-          các sản phẩm của chúng tôi là lựa chọn hoàn hảo cho các nàng cho những
-          sự kiện đặc biệt trong đời.
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. In euismod ipsum et dui rhoncus, nec ultricies
+          mauris. Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ea incidunt, consectetur illum architecto,
+          molestiae aperiam natus similique, vel iure error est corrupti? Facere animi accusamus exercitationem pariatur
+          ipsam tempore ullam.
         </Typography>
       </Stack>
 
-      <OutlineButton sx={{ width: 200, fontSize: 12 }}>
-        Vào Xem Ngay
-      </OutlineButton>
+      <OutlineButton sx={{ width: 200, fontSize: 12 }}>Vào Xem Ngay</OutlineButton>
     </Stack>
   )
 }

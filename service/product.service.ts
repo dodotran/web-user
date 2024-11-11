@@ -1,5 +1,8 @@
+import { DeviceType } from '@/features'
 import axiosClient from '.'
 
 export function getAllDevice() {
-  return axiosClient.get(`device`)
+  const response = axiosClient.get<DeviceType[]>(`device`)
+
+  return response
 }
