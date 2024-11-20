@@ -1,34 +1,32 @@
-"use client"
-import { base } from '@/libs/configs';
-import { formatMoney } from '@/utils';
-import { cartState } from '@/utils/recoil';
-import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, IconButton, Modal, Typography } from '@mui/material';
-import Image from 'next/image';
-import { useState } from 'react';
-import { useRecoilState } from 'recoil';
+'use client'
+import { base } from '@/libs/configs'
+import { formatMoney } from '@/utils'
+import { cartState } from '@/utils/recoil'
+import CloseIcon from '@mui/icons-material/Close'
+import { Box, Button, IconButton, Modal, Typography } from '@mui/material'
+import Image from 'next/image'
+import { useState } from 'react'
+import { useRecoilState } from 'recoil'
 
 const ProductDetailModal = ({ open, handleClose, product }) => {
-  const [quantity, setQuantity] = useState(1);
-
-  const [cartList, setCartList] = useRecoilState(cartState);
+  const [quantity, setQuantity] = useState(1)
+  const [cartList, setCartList] = useRecoilState(cartState)
 
   const handleAddToCart = () => {
-    const existingProductIndex = cartList.findIndex((item) => item.id === product.id);
+    const existingProductIndex = cartList.findIndex((item) => item.id === product.id)
 
     if (existingProductIndex >= 0) {
       const updatedCart = cartList.map((item, index) =>
         index === existingProductIndex ? { ...item, quantity: item.quantity + quantity } : item,
-      );
-      setCartList(updatedCart);
+      )
+      setCartList(updatedCart)
     } else {
-      setCartList([...cartList, { ...product, quantity }]);
+      setCartList([...cartList, { ...product, quantity }])
     }
 
-    setQuantity(1);
-    handleClose();
-  };
-
+    setQuantity(1)
+    handleClose()
+  }
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -58,8 +56,8 @@ const ProductDetailModal = ({ open, handleClose, product }) => {
               alt={product.name}
               width={400}
               height={400}
-              objectFit='cover'
-              layout='responsive'
+              objectFit="cover"
+              layout="responsive"
             />
           </Box>
           <Box
@@ -149,24 +147,11 @@ const ProductDetailModal = ({ open, handleClose, product }) => {
             >
               Thêm vào giỏ hàng
             </Button>
-
-            {/* Social Share Buttons */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
-              <Button variant="outlined" color="primary">
-                Facebook
-              </Button>
-              <Button variant="outlined" color="primary">
-                Twitter
-              </Button>
-              <Button variant="outlined" color="primary">
-                Pinterest
-              </Button>
-            </Box>
           </Box>
         </Box>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default ProductDetailModal;
+export default ProductDetailModal

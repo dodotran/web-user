@@ -33,7 +33,7 @@ export function CategoryCarousel() {
           <SwiperSlide key={category.id}>
             <CategoryCard>
               <Image
-                src="https://mayanh24h.com/upload/assets/thumb/2024/0816/ar/ulanzi-ht002-reflector-7-inches-1.jpg"
+                src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
                 alt="image"
                 width={300}
                 height={280}
