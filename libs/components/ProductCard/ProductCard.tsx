@@ -1,13 +1,13 @@
 'use client'
 
-import { DeviceType } from '@/features'
+import { EquipmentType } from '@/features'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { Box, IconButton, Paper, Typography } from '@mui/material'
 import Image from 'next/image'
 import React from 'react'
 import ProductDetailModal from '../ProductDetailModal'
 
-export const ProductCard = (product: DeviceType) => {
+export const ProductCard = (product: EquipmentType) => {
   const [openDetail, setOpenDetail] = React.useState(false)
 
   return (
@@ -30,29 +30,26 @@ export const ProductCard = (product: DeviceType) => {
             justifyContent: 'center',
             cursor: 'pointer',
             '& img': {
-              transition: 'transform 0.4s ease-in-out', // Đặt transition ở trạng thái gốc
+              transition: 'transform 0.4s ease-in-out',
               willChange: 'transform',
             },
             '&:hover img': {
-              transform: 'scale(1.05)', // Hiệu ứng scale khi hover
+              transform: 'scale(1.05)',
             },
             '& > button': {
               visibility: 'hidden',
               opacity: 0,
-              transition: 'opacity 0.3s ease-in-out, visibility 0s linear 0.3s', // Đặt transition ở trạng thái gốc
+              transition: 'opacity 0.3s ease-in-out, visibility 0s linear 0.3s',
             },
             '&:hover > button': {
               visibility: 'visible',
               opacity: 1,
-              transition: 'opacity 0.3s ease-in-out, visibility 0s linear 0s', // Tạo hiệu ứng xuất hiện khi hover
+              transition: 'opacity 0.3s ease-in-out, visibility 0s linear 0s',
             },
           }}
         >
           <Image
-            src={
-              product.image ??
-              'https://mayanh24h.com/upload/assets/thumb/catalog/san-pham/phu-kien-may-anh/den-flash-led/godox-tt350/den-flash-godox-tt350.jpg'
-            }
+            src="https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
             alt={product.name}
             width={4}
             height={4}
@@ -75,14 +72,14 @@ export const ProductCard = (product: DeviceType) => {
           </IconButton>
         </Box>
         <Typography variant="body2" sx={{ fontSize: '14px', fontWeight: 400, color: '#ccc', marginY: 2 }}>
-          Loại thiết bị
+          Loại thiết bị {product.categoryId}
         </Typography>
         <Typography variant="h6" sx={{ marginBottom: 1, cursor: 'pointer' }}>
           {product.name}
         </Typography>
-        <Typography variant="body1">Giá thuê ngày: {product.priceDay}</Typography>
-        <Typography variant="body1">Giá thuê tuần: {product.priceWeek}</Typography>
-        <Typography variant="body1">Giá thuê tháng: {product.priceMonth}</Typography>
+        <Typography variant="body1">Giá thuê ngày: {product.pricePerDay}</Typography>
+        <Typography variant="body1">Giá thuê tuần: {product.pricePerWeek}</Typography>
+        <Typography variant="body1">Giá thuê tháng: {product.pricePerMonth}</Typography>
       </Box>
 
       <ProductDetailModal open={openDetail} handleClose={() => setOpenDetail(false)} product={product} />

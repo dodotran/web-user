@@ -19,11 +19,12 @@ export const NewRelease = () => {
       </Typography>
 
       <Grid2 container spacing={{ xs: 2, md: 3 }} columns={{ xs: 4, sm: 8, md: 12 }}>
-        {data?.data?.map((device, index) => (
-          <Grid2 key={index} size={{ xs: 2, sm: 4, md: 2.4 }}>
-            <ProductCard {...device} />
-          </Grid2>
-        ))}
+        {data &&
+          data?.map((device, index) => (
+            <Grid2 key={index} size={{ xs: 2, sm: 4, md: 2.4 }}>
+              <ProductCard {...device} />
+            </Grid2>
+          ))}
       </Grid2>
 
       <Stack alignItems="center">
