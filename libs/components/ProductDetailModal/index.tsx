@@ -1,34 +1,21 @@
-"use client"
-import { base } from '@/libs/configs';
-import { formatMoney } from '@/utils';
-import { cartState } from '@/utils/recoil';
-import CloseIcon from '@mui/icons-material/Close';
-import { Box, Button, IconButton, Modal, Typography } from '@mui/material';
-import Image from 'next/image';
-import { useState } from 'react';
-import { useRecoilState } from 'recoil';
+'use client'
 
-const ProductDetailModal = ({ open, handleClose, product }) => {
-  const [quantity, setQuantity] = useState(1);
+import { EquipmentType } from '@/features'
+import { base } from '@/libs/configs'
+import { formatMoney } from '@/utils'
+import CloseIcon from '@mui/icons-material/Close'
+import { Box, Button, IconButton, Modal, Typography } from '@mui/material'
+import Image from 'next/image'
+import { useRouter } from 'next/navigation'
 
-  const [cartList, setCartList] = useRecoilState(cartState);
+interface ProductDetailModalProps {
+  open: boolean
+  handleClose: () => void
+  product: EquipmentType
+}
 
-  const handleAddToCart = () => {
-    const existingProductIndex = cartList.findIndex((item) => item.id === product.id);
-
-    if (existingProductIndex >= 0) {
-      const updatedCart = cartList.map((item, index) =>
-        index === existingProductIndex ? { ...item, quantity: item.quantity + quantity } : item,
-      );
-      setCartList(updatedCart);
-    } else {
-      setCartList([...cartList, { ...product, quantity }]);
-    }
-
-    setQuantity(1);
-    handleClose();
-  };
-
+const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClose, product }) => {
+  const router = useRouter()
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -51,15 +38,18 @@ const ProductDetailModal = ({ open, handleClose, product }) => {
         </IconButton>
 
         <Box sx={{ display: 'flex', gap: 5 }}>
-          {/* Image Section */}
-          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2 }}>
+          <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2, flex: 1 }}>
             <Image
-              src={product.image} // Replace with actual image link
+              src="https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
               alt={product.name}
               width={400}
               height={400}
-              objectFit='cover'
-              layout='responsive'
+              objectFit="cover"
+              layout="responsive"
+              style={{
+                width: '100%',
+                height: '100%',
+              }}
             />
           </Box>
           <Box
@@ -67,6 +57,7 @@ const ProductDetailModal = ({ open, handleClose, product }) => {
               display: 'flex',
               flexDirection: 'column',
               gap: 2,
+              flex: 1,
             }}
           >
             {/* Product Info Section */}
@@ -74,35 +65,33 @@ const ProductDetailModal = ({ open, handleClose, product }) => {
               {product.name}
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Mã sản phẩm: {product.code}
+              Mã sản phẩm: {product.id}
             </Typography>
             <Typography variant="body1" color="text.secondary">
               Tình trạng: <span style={{ fontWeight: 600 }}>còn hàng</span>
             </Typography>
             <Typography variant="body1" color="text.secondary">
-              Thương hiệu: {product.brand}
+              Thương hiệu: OXD
             </Typography>
             <Typography variant="body1" fontWeight={600} sx={{ display: 'flex', gap: 5, alignItems: 'center' }}>
               Giá thuê ngày:{' '}
               <Typography component="span" fontSize={20} fontWeight={700}>
-                {formatMoney(product.priceDay)}
+                {formatMoney(product.pricePerDay)}
               </Typography>
             </Typography>
             <Typography variant="body1" fontWeight={600} sx={{ display: 'flex', gap: 5, alignItems: 'center' }}>
               Giá thuê tuần:{' '}
               <Typography component="span" fontSize={20} fontWeight={700}>
-                {formatMoney(product.priceWeek)}
+                {formatMoney(product.pricePerWeek)}
               </Typography>
             </Typography>
             <Typography variant="body1" fontWeight={600} sx={{ display: 'flex', gap: 5, alignItems: 'center' }}>
               Giá thuê tháng:{' '}
               <Typography component="span" fontSize={20} fontWeight={700}>
-                {formatMoney(product.priceMonth)}
+                {formatMoney(product.pricePerMonth)}
               </Typography>
             </Typography>
-
-            {/* Quantity Control */}
-            <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
+            {/* <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
               <Typography variant="body1" sx={{ mr: 2 }}>
                 Số lượng:
               </Typography>
@@ -137,36 +126,22 @@ const ProductDetailModal = ({ open, handleClose, product }) => {
               >
                 +
               </Button>
-            </Box>
-
+            </Box> */}
             {/* Add to Cart Button */}
             <Button
               variant="contained"
               color="error"
               fullWidth
               sx={{ mb: 2, backgroundColor: base.primary, color: base.white }}
-              onClick={handleAddToCart}
+              onClick={() => router.push(`/products/${product.id}`)}
             >
-              Thêm vào giỏ hàng
+              Xem chi tiết
             </Button>
-
-            {/* Social Share Buttons */}
-            <Box sx={{ display: 'flex', justifyContent: 'center', gap: 1 }}>
-              <Button variant="outlined" color="primary">
-                Facebook
-              </Button>
-              <Button variant="outlined" color="primary">
-                Twitter
-              </Button>
-              <Button variant="outlined" color="primary">
-                Pinterest
-              </Button>
-            </Box>
           </Box>
         </Box>
       </Box>
     </Modal>
-  );
-};
+  )
+}
 
-export default ProductDetailModal;
+export default ProductDetailModal

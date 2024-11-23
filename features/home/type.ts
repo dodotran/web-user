@@ -2,32 +2,31 @@ export type CategoryType = {
   id: string
   name: string
   description: string | null
-  priceDay: number | null
-  priceWeek: number | null
-  priceMonth: number | null
-  createdAt: string
-  updatedAt: string
 }
 
 export type CategoriesResponse = {
   data: CategoryType[]
 }
 
-export type DeviceType = {
-  cartId: string
+export type EquipmentType = {
+  id: string
+  name: string
+  image: string
+  description: string
+  pricePerDay: number
+  pricePerWeek: number
+  pricePerMonth: number
+  stock: number
   categoryId: string
   createdAt: string
-  description: string
-  id: string
-  image: string
-  name: string
-  priceDay: number
-  priceMonth: number
-  priceWeek: number
-  status: string
   updatedAt: string
+  category: CategoryType
 }
 
-export type DeviceResponseType = {
-  data: DeviceType[]
+export type EquipmentResponseType = {
+  data: EquipmentType[]
+}
+
+export type EquipmentDetailType = {
+  data: EquipmentType
 }

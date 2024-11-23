@@ -1,7 +1,7 @@
 'use client'
 
-import { Home } from '@/features/home'
+import { ProductDetail } from '@/features/product'
 
 export default function Page() {
-  return <Home />
+  return <ProductDetail />
 }

@@ -1,8 +1,8 @@
+import { formatDate } from '@/utils/format'
 import { CopyAll as CopyAllIcon, Info as InfoIcon } from '@mui/icons-material'
-import { Box, Button, IconButton, Typography } from '@mui/material'
+import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
 
 const VoucherList = ({ vouchers }) => {
-  console.log('VCH', vouchers)
   return (
     <Box sx={{ padding: 2, backgroundColor: '#fff', borderRadius: 2, boxShadow: 1 }}>
       <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
@@ -20,7 +20,18 @@ const VoucherList = ({ vouchers }) => {
                 borderBottom: index < vouchers.data.length - 1 ? '1px solid #e0e0e0' : 'none',
               }}
             >
-              <Box component="img" src={voucher.image} alt={voucher.title} sx={{ width: 60, height: 60, mr: 2 }} />
+              <Stack
+                sx={{
+                  width: 60,
+                  height: 60,
+                  mr: 2,
+                  border: '1px solid #DDDD',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                }}
+              >
+                <Typography fontWeight="bold">KM</Typography>
+              </Stack>
               <Box sx={{ flex: 1 }}>
                 <Typography variant="body1" sx={{ fontWeight: 600 }}>
                   {voucher.title}
@@ -29,7 +40,7 @@ const VoucherList = ({ vouchers }) => {
                   {voucher.description}
                 </Typography>
                 <Typography variant="body2" sx={{ color: 'text.secondary', fontSize: '12px', mt: 1 }}>
-                  Mã: <strong>{voucher.code}</strong> &nbsp;|&nbsp; HSD: {voucher.validTo}
+                  Mã: <strong>{voucher.code}</strong> &nbsp;|&nbsp; HSD: {formatDate(voucher.validTo)}
                 </Typography>
               </Box>
               <Button

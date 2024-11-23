@@ -17,7 +17,7 @@ const NewsCard = () => {
       <Stack gap={4} alignItems="center">
         <Image
           alt="news"
-          src="https://mayanh24h.com/upload/assets/2024/0817/ar/banner-may-quay-camera-action.png"
+          src="https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
           width={400}
           height={300}
           style={{ objectFit: 'cover', width: '100%' }}

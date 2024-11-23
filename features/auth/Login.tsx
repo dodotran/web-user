@@ -1,70 +1,103 @@
-// LoginForm.js
-import { yupResolver } from '@hookform/resolvers/yup'
-import { Button, TextField, Typography } from '@mui/material'
-import { Controller, useForm } from 'react-hook-form'
-import * as yup from 'yup'
+'use client'
 
-const schema = yup.object().shape({
-  email: yup.string().email('Email không hợp lệ').required('Email là bắt buộc'),
-  password: yup.string().min(6, 'Mật khẩu phải có ít nhất 6 ký tự').required('Mật khẩu là bắt buộc'),
-})
+import { Input } from '@/libs/components/Form'
+import { login } from '@/service/auth.service'
+import { authState } from '@/utils/recoil'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Button, Stack, Typography } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
+import Link from 'next/link'
+import { useRouter } from 'next/navigation'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { useSetRecoilState } from 'recoil'
+import { LoginInputSchema, LoginInputType } from './type'
 
 export default function LoginForm({ onSwitch }) {
-  const {
-    handleSubmit,
-    control,
-    formState: { errors },
-  } = useForm({
-    resolver: yupResolver(schema),
+  const setAuth = useSetRecoilState(authState)
+  const router = useRouter()
+
+  const { handleSubmit, control } = useForm<LoginInputType>({
+    defaultValues: {
+      email: '',
+      password: '',
+    },
+    resolver: zodResolver(LoginInputSchema),
   })
 
-  const onSubmit = (data) => {
-    console.log('Login Data:', data)
+  const { mutate, isPending } = useMutation({
+    mutationFn: login,
+    onError: () => {
+      alert('Đăng nhập thất bại')
+    },
+    onSuccess: (data) => {
+      router.push('/')
+      setAuth(data)
+    },
+  })
+
+  const onSubmit: SubmitHandler<LoginInputType> = (data) => {
+    mutate(data)
   }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      {/* Login form fields go here */}
-      <Controller
-        name="email"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Email"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ''}
-          />
-        )}
-      />
-      <Controller
+    <Stack
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      spacing={2}
+      maxWidth={{
+        xs: '100%',
+        sm: 400,
+        md: 500,
+        lg: 600,
+      }}
+    >
+      <Input name="email" control={control} fullWidth placeholder="Email" autoComplete="email" disabled={isPending} />
+
+      <Input
         name="password"
         control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Mật khẩu"
-            type="password"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            error={!!errors.password}
-            helperText={errors.password ? errors.password.message : ''}
-          />
-        )}
+        fullWidth
+        placeholder="Vui lòng nhập mật khẩu"
+        type="password"
+        autoComplete="new-password"
+        disabled={isPending}
       />
-      <Button type="submit" variant="contained" color="primary" fullWidth>
-        Đăng nhập
-      </Button>
-      <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-        Chưa có tài khoản?{' '}
-        <Typography onClick={onSwitch} color="primary" variant="body2">
-          Đăng ký ngay
-        </Typography>
+
+      <Typography variant="subtitle1">
+        This site is protected by reCAPTCHA and the Google Privacy Policy and Terms of Service apply.
       </Typography>
-    </form>
+
+      <Stack direction="row" spacing={3}>
+        <Button type="submit" variant="contained" color="primary" disabled={isPending}>
+          Đăng nhập
+        </Button>
+
+        <Stack gap={0.5} justifyContent="center">
+          <Stack direction="row" alignItems="center" spacing="4px">
+            <Typography variant="body2" align="center">
+              Bạn quên mật khẩu?
+            </Typography>
+            <Typography
+              component={Link}
+              href="#"
+              color="#009dde"
+              variant="body2"
+              sx={{ cursor: 'pointer', textDecoration: 'none' }}
+            >
+              Quên mật khẩu?
+            </Typography>
+          </Stack>
+
+          <Stack direction="row" alignItems="center" spacing="4px">
+            <Typography variant="body2" align="center">
+              Chưa có tài khoản?
+            </Typography>
+            <Typography onClick={onSwitch} color="#009dde" variant="body2" sx={{ cursor: 'pointer' }}>
+              Đăng ký ngay
+            </Typography>
+          </Stack>
+        </Stack>
+      </Stack>
+    </Stack>
   )
 }

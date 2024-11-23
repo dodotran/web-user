@@ -27,12 +27,11 @@ const LayoutPage: React.FC<LayoutType> = ({ children, HeaderComponent, disableSi
 export { LayoutPage }
 
 const ContentPage = styled(Box)(({ theme }) => ({
-  minHeight: '100vh',
+  minHeight: '60vh',
   flex: 1,
   justifyContent: 'center',
   alignItems: 'center',
   overflow: 'hidden',
   marginTop: HEADER_HEIGHT,
-  background: theme.palette.base.white,
-  backgroundColor: theme.palette.base.white,
+  backgroundColor: '#f7f7f7',
 }))
