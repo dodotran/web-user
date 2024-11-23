@@ -115,7 +115,7 @@ const defaultTheme: Theme = createTheme({
           fontSize: 16,
           flexShrink: 0,
           fontWeight: 500,
-          borderRadius: 8,
+          borderRadius: 2,
           boxShadow: 'none',
           lineHeight: '16px',
           fontStyle: 'normal',
@@ -231,29 +231,40 @@ const defaultTheme: Theme = createTheme({
     MuiOutlinedInput: {
       styleOverrides: {
         root: {
-          background: base.white,
+          background: '#ededed',
           color: mono[600],
           outline: 'none',
           paddingRight: 0,
           borderRadius: 4,
           fontWeight: 400,
+          height: 55,
+          transition: 'all 0.3s',
+          '&.Mui-focused': {
+            transition: 'all 0.3s',
+            background: base.white,
+          },
+
           '& .MuiOutlinedInput-input': {
-            fontSize: 14,
+            fontSize: 16,
             lineHeight: '20px',
-            fontStyle: 'normal',
-            height: 16,
+            height: 30,
             padding: '12px 10px 12px 16px',
+            fontWeight: 500,
+            fontStyle: 'italic',
             webkitTextFillColor: mono[600],
           },
           '&.MuiOutlinedInput-root': {
             fieldset: {
-              borderColor: base.separate_nav,
+              borderColor: '#ededed',
             },
             '&.Mui-focused fieldset': {
-              border: `1px solid ${base.separate_nav}`,
+              border: `1px solid #ededed`,
             },
             '&:hover fieldset': {
-              border: `1px solid ${base.separate_nav}`,
+              border: `1px solid #ededed`,
+            },
+            '&.Mui-disabled fieldset': {
+              borderColor: '#ededed',
             },
             '&::placeholder': {
               color: mono[200],

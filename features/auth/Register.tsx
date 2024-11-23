@@ -1,49 +1,45 @@
-// RegisterForm.js
-import React from 'react';
-import { useForm, Controller } from 'react-hook-form';
-import { TextField, Button, Typography, Radio, RadioGroup, FormControlLabel, FormControl, FormLabel } from '@mui/material';
-import { yupResolver } from '@hookform/resolvers/yup';
-import * as yup from 'yup';
-
-// Validation schema using Yup
-const schema = yup.object().shape({
-  lastName: yup.string().required("Họ là bắt buộc"),
-  firstName: yup.string().required("Tên là bắt buộc"),
-  gender: yup.string().required("Giới tính là bắt buộc"),
-  dob: yup.date().required("Ngày sinh là bắt buộc").typeError("Ngày sinh không hợp lệ"),
-  email: yup.string().email("Email không hợp lệ").required("Email là bắt buộc"),
-  password: yup.string().min(6, "Mật khẩu phải có ít nhất 6 ký tự").required("Mật khẩu là bắt buộc"),
-  phoneNumber: yup.string().matches(/^[0-9]{10,11}$/, "Số điện thoại không hợp lệ").required("Số điện thoại là bắt buộc"),
-  address: yup.string().required("Địa chỉ là bắt buộc"),
-});
+import { Input } from '@/libs/components/Form'
+import { zodResolver } from '@hookform/resolvers/zod'
+import { Button, Stack, Typography } from '@mui/material'
+import { SubmitHandler, useForm } from 'react-hook-form'
+import { RegisterInputSchema, RegisterInputType } from './type'
 
 export default function RegisterForm({ onSwitch }) {
-  const { handleSubmit, control, formState: { errors } } = useForm({
-    resolver: yupResolver(schema),
-  });
+  const { handleSubmit, control } = useForm<RegisterInputType>({
+    defaultValues: {
+      email: '',
+      password: '',
+      name: '',
+      passwordconf: '',
+    },
+    resolver: zodResolver(RegisterInputSchema),
+  })
 
-  const onSubmit = (data) => {
-    console.log("Registration Data:", data);
-  };
+  const onSubmit: SubmitHandler<RegisterInputType> = (data) => {
+    console.log('Registration Data:', data)
+  }
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Controller
-        name="lastName"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Họ"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            error={!!errors.lastName}
-            helperText={errors.lastName ? errors.lastName.message : ""}
-          />
-        )}
-      />
-      <Controller
+    <Stack
+      component="form"
+      onSubmit={handleSubmit(onSubmit)}
+      spacing={2}
+      maxWidth={{
+        xs: '100%',
+        sm: 400,
+        md: 500,
+        lg: 600,
+      }}
+    >
+      <Input name="name" control={control} fullWidth placeholder="Nhập tên của bạn" />
+
+      <Input name="email" control={control} fullWidth placeholder="Email" />
+
+      <Input name="password" control={control} fullWidth type="password" placeholder="Nhập mật khẩu của bạn" />
+
+      <Input name="passwordconf" control={control} fullWidth type="password" placeholder="Nhập lại mật khẩu của bạn" />
+
+      {/* <Controller
         name="firstName"
         control={control}
         render={({ field }) => (
@@ -54,7 +50,7 @@ export default function RegisterForm({ onSwitch }) {
             margin="normal"
             fullWidth
             error={!!errors.firstName}
-            helperText={errors.firstName ? errors.firstName.message : ""}
+            helperText={errors.firstName ? errors.firstName.message : ''}
           />
         )}
       />
@@ -85,7 +81,7 @@ export default function RegisterForm({ onSwitch }) {
             margin="normal"
             fullWidth
             error={!!errors.dob}
-            helperText={errors.dob ? errors.dob.message : ""}
+            helperText={errors.dob ? errors.dob.message : ''}
           />
         )}
       />
@@ -100,7 +96,7 @@ export default function RegisterForm({ onSwitch }) {
             margin="normal"
             fullWidth
             error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ""}
+            helperText={errors.email ? errors.email.message : ''}
           />
         )}
       />
@@ -116,7 +112,7 @@ export default function RegisterForm({ onSwitch }) {
             margin="normal"
             fullWidth
             error={!!errors.password}
-            helperText={errors.password ? errors.password.message : ""}
+            helperText={errors.password ? errors.password.message : ''}
           />
         )}
       />
@@ -131,7 +127,7 @@ export default function RegisterForm({ onSwitch }) {
             margin="normal"
             fullWidth
             error={!!errors.phoneNumber}
-            helperText={errors.phoneNumber ? errors.phoneNumber.message : ""}
+            helperText={errors.phoneNumber ? errors.phoneNumber.message : ''}
           />
         )}
       />
@@ -146,16 +142,27 @@ export default function RegisterForm({ onSwitch }) {
             margin="normal"
             fullWidth
             error={!!errors.address}
-            helperText={errors.address ? errors.address.message : ""}
+            helperText={errors.address ? errors.address.message : ''}
           />
         )}
-      />
-      <Button type="submit" variant="contained" color="primary" fullWidth>
-        Đăng ký
-      </Button>
-      <Typography variant="body2" align="center" sx={{ mt: 2 }}>
-        Bạn đã có tài khoản? <Button onClick={onSwitch} variant="text" color="primary">Đăng nhập ngay</Button>
-      </Typography>
-    </form>
-  );
+      /> */}
+
+      <Stack direction="row" spacing={3}>
+        <Button type="submit" variant="contained" color="primary">
+          Đăng ký
+        </Button>
+
+        <Stack gap={0.5} justifyContent="center">
+          <Stack direction="row" alignItems="center" spacing="4px">
+            <Typography variant="body2" align="center">
+              Bạn đã có tài khoản?
+            </Typography>
+            <Typography onClick={onSwitch} color="#009dde" variant="body2" sx={{ cursor: 'pointer' }}>
+              Đăng nhập ngay
+            </Typography>
+          </Stack>
+        </Stack>
+      </Stack>
+    </Stack>
+  )
 }

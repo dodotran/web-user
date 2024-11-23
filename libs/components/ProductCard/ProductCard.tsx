@@ -1,6 +1,7 @@
 'use client'
 
 import { EquipmentType } from '@/features'
+import { formatMoney } from '@/utils'
 import VisibilityIcon from '@mui/icons-material/Visibility'
 import { Box, IconButton, Paper, Typography } from '@mui/material'
 import Image from 'next/image'
@@ -77,9 +78,9 @@ export const ProductCard = (product: EquipmentType) => {
         <Typography variant="h6" sx={{ marginBottom: 1, cursor: 'pointer' }}>
           {product.name}
         </Typography>
-        <Typography variant="body1">Giá thuê ngày: {product.pricePerDay}</Typography>
-        <Typography variant="body1">Giá thuê tuần: {product.pricePerWeek}</Typography>
-        <Typography variant="body1">Giá thuê tháng: {product.pricePerMonth}</Typography>
+        <Typography variant="body1">Giá thuê ngày: {formatMoney(product.pricePerDay)}</Typography>
+        <Typography variant="body1">Giá thuê tuần: {formatMoney(product.pricePerWeek)}</Typography>
+        <Typography variant="body1">Giá thuê tháng: {formatMoney(product.pricePerMonth)}</Typography>
       </Box>
 
       <ProductDetailModal open={openDetail} handleClose={() => setOpenDetail(false)} product={product} />
