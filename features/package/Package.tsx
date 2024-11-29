@@ -1,26 +1,12 @@
 'use client'
 
 import { ProductCard } from '@/libs/components/ProductCard/ProductCard'
-import { getAllDevice } from '@/service/product.service'
-import FilterListIcon from '@mui/icons-material/FilterList'
-import KeyboardArrowDownIcon from '@mui/icons-material/KeyboardArrowDown'
-import SortByAlphaIcon from '@mui/icons-material/SortByAlpha'
-import {
-  Box,
-  Breadcrumbs,
-  FormControl,
-  Grid,
-  IconButton,
-  Link,
-  ListItemText,
-  MenuItem,
-  Select,
-  Typography,
-} from '@mui/material'
+import { getAllPackage } from '@/service/product.service'
+import { Box, Breadcrumbs, Grid, Link, Typography } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 import { useState } from 'react'
 
-function Service() {
+export const Package = () => {
   const [sortOption, setSortOption] = useState('descPrice')
 
   const handleChange = (event) => {
@@ -28,19 +14,19 @@ function Service() {
     setSortOption(value)
   }
 
-  const { data: devices, isLoading } = useQuery({
+  const { data: devices } = useQuery({
     queryKey: ['allDevice'],
-    queryFn: () => getAllDevice(),
+    queryFn: () => getAllPackage(),
   })
 
   return (
-    <div>
+    <Box pb={10}>
       <Box paddingX={10}>
         <Breadcrumbs aria-label="breadcrumb" sx={{ marginTop: 3, color: 'black', fontSize: '14px', fontWeight: 400 }}>
           <Link underline="none" color="black" href="/">
             Trang chủ
           </Link>
-          <Typography sx={{ color: 'black', fontSize: '14px', fontWeight: 400 }}>Dịch vụ</Typography>
+          <Typography sx={{ color: 'black', fontSize: '14px', fontWeight: 400 }}>Gói thiết bị</Typography>
         </Breadcrumbs>
       </Box>
       <Grid container spacing={5} alignItems={'center'}>
@@ -54,11 +40,11 @@ function Service() {
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography variant="h1" component="h1" margin={'20px 0'}>
-            Tất cả dịch vụ
+            Gói thiết bị
           </Typography>
         </Grid>
       </Grid>
-      <Box
+      {/* <Box
         sx={{
           display: 'flex',
           justifyContent: 'space-between',
@@ -67,12 +53,6 @@ function Service() {
           borderBottom: '1px solid #ccc',
         }}
       >
-        <Typography variant="body1" margin={'20px 0'}>
-          Tìm kiếm theo nhu cầu
-          <IconButton>
-            <FilterListIcon />
-          </IconButton>
-        </Typography>
         <FormControl variant="outlined">
           <Select
             value={sortOption}
@@ -129,7 +109,7 @@ function Service() {
             </MenuItem>
           </Select>
         </FormControl>
-      </Box>
+      </Box> */}
 
       <Box
         sx={{
@@ -137,19 +117,17 @@ function Service() {
         }}
       >
         <Typography variant="body2" component="p" margin={'20px 0'}>
-          {devices?.data.length ?? 0} sản phẩm
+          {devices?.length ?? 0} sản phẩm
         </Typography>
 
         <Grid container spacing={4}>
-          {devices?.data.map((device) => (
+          {devices?.map((device) => (
             <Grid item xs={12} md={3} key={device?.id}>
-              <ProductCard {...device} />
+              <ProductCard {...device} type="package" />
             </Grid>
           ))}
         </Grid>
       </Box>
-    </div>
+    </Box>
   )
 }
-
-export default Service

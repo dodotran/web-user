@@ -8,7 +8,11 @@ import Image from 'next/image'
 import React from 'react'
 import ProductDetailModal from '../ProductDetailModal'
 
-export const ProductCard = (product: EquipmentType) => {
+export const ProductCard = (
+  product: EquipmentType & {
+    type?: 'equipment' | 'package'
+  },
+) => {
   const [openDetail, setOpenDetail] = React.useState(false)
 
   return (
@@ -50,7 +54,7 @@ export const ProductCard = (product: EquipmentType) => {
           }}
         >
           <Image
-            src="https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
+            src={product.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
             alt={product.name}
             width={4}
             height={4}
@@ -73,7 +77,7 @@ export const ProductCard = (product: EquipmentType) => {
           </IconButton>
         </Box>
         <Typography variant="body2" sx={{ fontSize: '14px', fontWeight: 400, color: '#ccc', marginY: 2 }}>
-          Loại thiết bị {product.categoryId}
+          Loại thiết bị {product.category?.name ?? 'Chưa có loại'}
         </Typography>
         <Typography variant="h6" sx={{ marginBottom: 1, cursor: 'pointer' }}>
           {product.name}
@@ -83,7 +87,12 @@ export const ProductCard = (product: EquipmentType) => {
         <Typography variant="body1">Giá thuê tháng: {formatMoney(product.pricePerMonth)}</Typography>
       </Box>
 
-      <ProductDetailModal open={openDetail} handleClose={() => setOpenDetail(false)} product={product} />
+      <ProductDetailModal
+        open={openDetail}
+        handleClose={() => setOpenDetail(false)}
+        product={product}
+        type={product.type ?? 'equipment'}
+      />
     </Paper>
   )
 }

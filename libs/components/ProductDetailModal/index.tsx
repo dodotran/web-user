@@ -12,10 +12,21 @@ interface ProductDetailModalProps {
   open: boolean
   handleClose: () => void
   product: EquipmentType
+  type: 'equipment' | 'package'
 }
 
-const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClose, product }) => {
+const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClose, product, type }) => {
   const router = useRouter()
+  const handleRedirect = () => {
+    if (type === 'equipment') {
+      router.push(`/products/${product.id}`)
+      return
+    }
+
+    if (type === 'package') {
+      router.push(`/packages/${product.id}`)
+    }
+  }
 
   return (
     <Modal open={open} onClose={handleClose}>
@@ -133,7 +144,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClo
               color="error"
               fullWidth
               sx={{ mb: 2, backgroundColor: base.primary, color: base.white }}
-              onClick={() => router.push(`/products/${product.id}`)}
+              onClick={handleRedirect}
             >
               Xem chi tiết
             </Button>

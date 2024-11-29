@@ -2,18 +2,17 @@
 
 import { Input } from '@/libs/components/Form'
 import { login } from '@/service/auth.service'
-import { authState } from '@/utils/recoil'
+import { setAccessTokenToStorage } from '@/utils/localStorage'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Stack, Typography } from '@mui/material'
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
-import { useSetRecoilState } from 'recoil'
 import { LoginInputSchema, LoginInputType } from './type'
 
 export default function LoginForm({ onSwitch }) {
-  const setAuth = useSetRecoilState(authState)
+  const queryClient = useQueryClient()
   const router = useRouter()
 
   const { handleSubmit, control } = useForm<LoginInputType>({
@@ -29,9 +28,11 @@ export default function LoginForm({ onSwitch }) {
     onError: () => {
       alert('Đăng nhập thất bại')
     },
-    onSuccess: (data) => {
+    onSuccess: async (data) => {
+      const { token, user } = data
       router.push('/')
-      setAuth(data)
+      await setAccessTokenToStorage(token)
+      queryClient.setQueryData(['ME'], user)
     },
   })
 

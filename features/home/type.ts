@@ -21,6 +21,7 @@ export type EquipmentType = {
   createdAt: string
   updatedAt: string
   category: CategoryType
+  equipments: EquipmentType[]
 }
 
 export type EquipmentResponseType = {

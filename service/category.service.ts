@@ -1,8 +1,8 @@
-import { CategoryType } from '@/features'
-import axiosClient from '.'
+import { CategoriesResponse } from '@/features'
+import request from '@/libs/configs/axios/axios'
 
-export const getCategries = () => {
-  const response = axiosClient.get<CategoryType[]>('/categories')
+export const getCategries = async () => {
+  const response = await request.get<CategoriesResponse>('/categories/all')
 
-  return response
+  return response.data.data
 }

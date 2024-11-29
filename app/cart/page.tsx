@@ -1,12 +1,7 @@
 import Cart from '@/features/cart'
-import React from 'react'
 
 function page() {
-  return (
-    <div>
-      <Cart />
-    </div>
-  )
+  return <Cart />
 }
 
 export default page

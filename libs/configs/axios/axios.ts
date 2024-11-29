@@ -3,7 +3,6 @@
 import { getAccessTokenFromStorage } from '@/utils/localStorage'
 import axios, { AxiosError, AxiosResponse } from 'axios'
 import { useEffect } from 'react'
-// import { useAuth } from "../context";
 
 const request = axios.create({
   baseURL: process.env.NEXT_PUBLIC_API_URL,
@@ -11,8 +10,8 @@ const request = axios.create({
 })
 
 request.interceptors.request.use(
-  function (config) {
-    const token = getAccessTokenFromStorage()
+  async function (config) {
+    const token = await getAccessTokenFromStorage()
     config.headers.Accept = 'application/json'
     if (token) {
       config.headers.Authorization = `Bearer ${token}`
@@ -33,21 +32,14 @@ export const AxiosInterceptor = ({ children }: any) => {
     }
 
     const errInterceptor = (error: AxiosError) => {
-      if (
-        error.response?.status === 401 &&
-        error.config?.url !== '/logout' &&
-        error.config?.url !== '/login'
-      ) {
+      if (error.response?.status === 401 && error.config?.url !== '/logout' && error.config?.url !== '/login') {
         // handleLogout();
       }
 
       return Promise.reject(error)
     }
 
-    const interceptor = request.interceptors.response.use(
-      resInterceptor,
-      errInterceptor,
-    )
+    const interceptor = request.interceptors.response.use(resInterceptor, errInterceptor)
 
     return () => request.interceptors.response.eject(interceptor)
 

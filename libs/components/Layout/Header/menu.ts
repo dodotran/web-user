@@ -4,15 +4,15 @@ export const menu = [
     href: '/',
   },
   {
-    title: 'Giới thiệu',
-    href: '/about',
+    title: 'Gói thiết bị',
+    href: '/packages',
   },
   {
-    title: 'Dịch vụ',
-    href: '/service',
+    title: 'Thiết bị',
+    href: '/products',
   },
   {
-    title: 'Liên hệ',
-    href: '/contact',
+    title: 'Chính sách',
+    href: '/policy',
   },
 ]

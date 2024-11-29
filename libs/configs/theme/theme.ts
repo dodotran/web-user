@@ -299,13 +299,14 @@ const defaultTheme: Theme = createTheme({
       styleOverrides: {
         root: {
           '& .MuiSelect-icon': {
-            top: 9,
+            top: 15,
           },
           '& .MuiOutlinedInput-input': {
             color: mono[600],
             padding: '0 10px 0 16px',
-            fontSize: 14,
+            fontSize: 16,
             lineHeight: '20px',
+            height: 20,
           },
         },
       },

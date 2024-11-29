@@ -1,21 +1,31 @@
 'use client'
 
-import { cartState } from '@/utils/recoil'
-import AccountCircleIcon from '@mui/icons-material/AccountCircle'
-import NotificationsIcon from '@mui/icons-material/Notifications'
+import { getMe } from '@/service/auth.service'
+import { getCarts } from '@/service/cart.service'
 import SearchIcon from '@mui/icons-material/Search'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
-import { IconButton, Stack, Typography } from '@mui/material'
+import { Badge, IconButton, Stack, Typography } from '@mui/material'
+import { useQuery } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
-import { useRecoilValue } from 'recoil'
+import { Account } from './Account'
 import { menu } from './menu'
+import { Notification } from './Notification'
 
 export const HEADER_HEIGHT = 120
 
 export const Header = () => {
-  const cart = useRecoilValue(cartState)
   const router = useRouter()
+
+  useQuery({
+    queryKey: ['ME'],
+    queryFn: getMe,
+  })
+
+  const { data } = useQuery({
+    queryKey: ['Carts'],
+    queryFn: getCarts,
+  })
 
   return (
     <Stack
@@ -27,49 +37,62 @@ export const Header = () => {
       sx={{ backgroundColor: 'white' }}
       zIndex={1000}
     >
+      {/* Topbar Section */}
       <Stack
         direction="row"
         justifyContent="space-between"
-        height={40}
+        height={70}
         alignItems="center"
-        px={10}
+        px={{ xs: 2, md: 10 }} // Responsive padding
         sx={{ backgroundColor: '#9df3e4' }}
       >
-        <Stack>
-          <Typography fontSize={14} fontWeight={400}>
-            Hotline: <b>0998.999.999</b> (8h - 21h tất cả các ngày trong tuần) Liên hệ
-          </Typography>
-        </Stack>
-        <Stack alignItems="center" flexDirection="row">
-          <IconButton>
-            <NotificationsIcon />
-          </IconButton>
-          <Typography fontSize={14}>Thông báo cho tôi</Typography>
+        <Typography fontSize={{ xs: 12, md: 14 }} fontWeight={400}>
+          Hotline: <b>0998.999.999</b> (8h - 21h tất cả các ngày trong tuần)
+        </Typography>
+        <Stack alignItems="center" flexDirection="row" gap={1}>
+          <Notification />
+          <Typography fontSize={{ xs: 12, md: 14 }}>Thông báo cho tôi</Typography>
         </Stack>
       </Stack>
 
-      <Stack direction="row" alignItems="center" justifyContent="space-between" px={10} py={2} height={80}>
+      {/* Main Header Section */}
+      <Stack
+        direction="row"
+        alignItems="center"
+        justifyContent="space-between"
+        px={{ xs: 2, md: 10 }}
+        py={2}
+        height={{ xs: 60, md: 80 }} // Height changes for mobile
+      >
+        {/* Logo */}
         <Typography
           variant="h1"
           component={Link}
           href="/"
-          color="base.black"
           sx={{
             textDecoration: 'none',
+            fontSize: { xs: 24, md: 32 }, // Responsive font size
+            color: 'base.black',
           }}
         >
           Thiết bị
         </Typography>
 
-        <Stack direction="row" justifyContent="space-between" px={10} alignItems="center" gap={2}>
+        {/* Menu */}
+        <Stack
+          direction="row"
+          justifyContent="center"
+          gap={2}
+          alignItems="center"
+          display={{ xs: 'none', md: 'flex' }} // Hide menu on small screens
+        >
           {menu.map((item, index) => (
             <Typography
-              fontSize={16}
+              fontSize={{ xs: 14, md: 16 }}
               fontWeight={600}
               key={index}
               component={Link}
-              color="base.black"
-              sx={{ textDecoration: 'none' }}
+              sx={{ textDecoration: 'none', color: 'base.black' }}
               href={item.href}
             >
               {item.title}
@@ -77,10 +100,9 @@ export const Header = () => {
           ))}
         </Stack>
 
-        <Stack direction="row" justifyContent="space-between" px={10} gap={2} alignItems="center">
-          <IconButton href="/auth">
-            <AccountCircleIcon />
-          </IconButton>
+        {/* Actions */}
+        <Stack direction="row" justifyContent="space-between" gap={2} alignItems="center">
+          <Account />
           <IconButton
             sx={{
               position: 'relative',
@@ -88,12 +110,40 @@ export const Header = () => {
             }}
             onClick={() => router.push('/cart')}
           >
-            <ShoppingCartIcon />
+            <Badge badgeContent={data?.items?.length ?? 0} color="primary">
+              <ShoppingCartIcon />
+            </Badge>
           </IconButton>
           <IconButton>
             <SearchIcon />
           </IconButton>
         </Stack>
+      </Stack>
+
+      {/* Mobile Menu */}
+      <Stack
+        direction="row"
+        justifyContent="center"
+        alignItems="center"
+        sx={{
+          display: { xs: 'flex', md: 'none' }, // Show on small screens only
+          backgroundColor: '#f5f5f5',
+          paddingY: 1,
+          gap: 2,
+        }}
+      >
+        {menu.map((item, index) => (
+          <Typography
+            fontSize={14}
+            fontWeight={500}
+            key={index}
+            component={Link}
+            sx={{ textDecoration: 'none', color: 'base.black' }}
+            href={item.href}
+          >
+            {item.title}
+          </Typography>
+        ))}
       </Stack>
     </Stack>
   )

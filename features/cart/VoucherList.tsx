@@ -1,8 +1,28 @@
 import { formatDate } from '@/utils/format'
 import { CopyAll as CopyAllIcon, Info as InfoIcon } from '@mui/icons-material'
 import { Box, Button, IconButton, Stack, Typography } from '@mui/material'
+import { toast } from 'sonner'
 
 const VoucherList = ({ vouchers }) => {
+  const onCopyVoucher = (voucher: string) => {
+    // Tạo một phần tử input tạm thời
+    const tempInput = document.createElement('input')
+    tempInput.value = voucher
+
+    // Thêm input vào DOM
+    document.body.appendChild(tempInput)
+
+    // Chọn và sao chép nội dung
+    tempInput.select()
+    document.execCommand('copy')
+
+    // Xóa phần tử input khỏi DOM
+    document.body.removeChild(tempInput)
+
+    // Tùy chọn: Thông báo thành công
+    toast.success('Đã sao chép mã khuyến mãi')
+  }
+
   return (
     <Box sx={{ padding: 2, backgroundColor: '#fff', borderRadius: 2, boxShadow: 1 }}>
       <Typography variant="h6" sx={{ fontWeight: 'bold', mb: 2 }}>
@@ -49,6 +69,9 @@ const VoucherList = ({ vouchers }) => {
                 size="small"
                 startIcon={<CopyAllIcon />}
                 sx={{ fontSize: '12px', fontWeight: 500 }}
+                onClick={() => {
+                  onCopyVoucher(voucher.id)
+                }}
               >
                 Sao chép mã
               </Button>
