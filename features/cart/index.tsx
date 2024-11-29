@@ -1,19 +1,22 @@
 'use client'
 
+import { getCarts } from '@/service/cart.service'
 import { getDiscountPagination } from '@/service/discount.service'
-import { getAllDevice } from '@/service/product.service'
-import { cartState } from '@/utils/recoil'
-import { Box, Breadcrumbs, Divider, Grid, Link, Paper, Stack, TextField, Typography } from '@mui/material'
+import { Box, Breadcrumbs, Divider, Grid, Link, Stack, Typography } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
-import { useState } from 'react'
-import { useRecoilState } from 'recoil'
+import { isEmpty } from 'lodash'
+import { Fragment, useState } from 'react'
+import { NewRelease } from '../home/components'
 import CartItem from './CartItem'
 import OrderInfo from './OrderInfo'
-import RecommendedProducts from './Recommend'
 import VoucherSlider from './VoucherList'
 
 const ShoppingCart = () => {
-  const [cartList, setCartList] = useRecoilState(cartState)
+  const { data } = useQuery({
+    queryKey: ['Carts'],
+    queryFn: getCarts,
+  })
+
   const [formFilter, setFormFilter] = useState({
     page: 1,
     limit: 2,
@@ -24,13 +27,18 @@ const ShoppingCart = () => {
     queryFn: () => getDiscountPagination(formFilter),
   })
 
-  const { data: products, isLoading: isLoadingProduct } = useQuery({
-    queryKey: ['allDevice'],
-    queryFn: () => getAllDevice(),
-  })
-
   return (
-    <Box sx={{ paddingX: 10 }}>
+    <Box
+      sx={{
+        paddingX: {
+          xs: 2,
+          sm: 4,
+          md: 6,
+          lg: 8,
+        },
+      }}
+      mb={10}
+    >
       <Box sx={{ marginY: 5, borderTop: '1px solid', borderBottom: '1px solid', borderColor: '#ccc' }}>
         <Breadcrumbs aria-label="breadcrumb" sx={{ paddingY: 1, color: 'black', fontSize: '14px', fontWeight: 400 }}>
           <Link underline="none" color="black" href="/">
@@ -40,8 +48,7 @@ const ShoppingCart = () => {
         </Breadcrumbs>
       </Box>
 
-      <Grid container spacing={3}>
-        {/* Left Side - Cart Items and Order Notes */}
+      <Grid container spacing={3} sx={{ background: 'white' }} pb={5} pr={2}>
         <Grid item xs={12} md={8}>
           <Stack direction="row" justifyContent="space-between">
             <Typography variant="h5" sx={{ fontWeight: 700, mb: 2 }}>
@@ -49,56 +56,37 @@ const ShoppingCart = () => {
             </Typography>
 
             <Typography sx={{ mb: 2 }}>
-              Bạn đang có <b>{cartList.length ?? 0} sản phẩm</b> trong giỏ hàng
+              Bạn đang có <b>{data?.items?.length ?? 0} sản phẩm</b> trong giỏ hàng
             </Typography>
           </Stack>
-          {/* Free Shipping Progress */}
-          {/* <Box sx={{ display: 'flex', flexDirection: 'column', gap: 2 }}>
-            <Typography variant="body1" sx={{ color: 'text.secondary' }}>
-              Bạn cần mua thêm <strong style={{ color: '#e57373' }}>150,000₫</strong> để được MIỄN PHÍ VẬN CHUYỂN
-            </Typography>
-            <Box sx={{ flexGrow: 1 }}>
-              <Box
-                sx={{
-                  height: 6,
-                  backgroundColor: '#e0e0e0',
-                  borderRadius: 3,
-                  overflow: 'hidden',
-                }}
-              >
-                <Box
-                  sx={{
-                    width: '60%', // Adjust width based on amount
-                    height: '100%',
-                    backgroundColor: '#FFD700',
-                  }}
-                />
-              </Box>
-            </Box>
-          </Box> */}
-          {/* Cart Items */}
-          {cartList?.map((item) => (
-            <Box key={item?.id}>
-              <CartItem cart={item} />
-              <Divider sx={{ my: 1 }} />
-            </Box>
-          ))}
 
-          <Paper sx={{ padding: 2, mt: 2 }}>
-            <Typography variant="h6" sx={{ mb: 1 }}>
-              Ghi chú đơn hàng
-            </Typography>
-            <TextField placeholder="Ghi chú đơn hàng" multiline rows={4} fullWidth variant="outlined" />
-          </Paper>
+          <Divider sx={{ mb: 2 }} />
 
-          <RecommendedProducts products={products?.data} />
+          <Box sx={{ border: '2px solid #eae4e8', borderRadius: 2 }}>
+            {isEmpty(data?.items) ? (
+              <Stack height={200} justifyContent="center" alignItems="center">
+                <Typography variant="h6" sx={{ fontWeight: 600 }}>
+                  Giỏ hàng của bạn đang trống
+                </Typography>
+              </Stack>
+            ) : (
+              data?.items?.map((item) => (
+                <Fragment key={item.id}>
+                  <CartItem {...item} />
+                  <Divider sx={{ mx: 2 }} />
+                </Fragment>
+              ))
+            )}
+          </Box>
         </Grid>
 
         <Grid item xs={12} md={4}>
-          <OrderInfo total="850,000₫" />
+          <OrderInfo cart={data} />
           <VoucherSlider vouchers={discounts?.data ?? []} />
         </Grid>
       </Grid>
+
+      <NewRelease />
     </Box>
   )
 }

@@ -55,8 +55,8 @@ export const ProductDetail = () => {
         }}
       >
         <Image
-          src="https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
-          alt={data?.name}
+          src={data?.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
+          alt={data?.name ?? 'image'}
           width={500}
           height={500}
           style={{

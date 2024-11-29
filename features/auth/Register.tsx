@@ -1,11 +1,14 @@
 import { Input } from '@/libs/components/Form'
+import { register } from '@/service/auth.service'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Stack, Typography } from '@mui/material'
+import { useMutation } from '@tanstack/react-query'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { RegisterInputSchema, RegisterInputType } from './type'
 
 export default function RegisterForm({ onSwitch }) {
-  const { handleSubmit, control } = useForm<RegisterInputType>({
+  const { handleSubmit, control, reset } = useForm<RegisterInputType>({
     defaultValues: {
       email: '',
       password: '',
@@ -15,8 +18,19 @@ export default function RegisterForm({ onSwitch }) {
     resolver: zodResolver(RegisterInputSchema),
   })
 
+  const { mutate } = useMutation({
+    mutationFn: register,
+    onSuccess: () => {
+      toast.success('Đăng ký thành công')
+      reset()
+    },
+    onError: () => {
+      toast.error('Đăng ký thất bại')
+    },
+  })
+
   const onSubmit: SubmitHandler<RegisterInputType> = (data) => {
-    console.log('Registration Data:', data)
+    mutate(data)
   }
 
   return (
@@ -24,7 +38,7 @@ export default function RegisterForm({ onSwitch }) {
       component="form"
       onSubmit={handleSubmit(onSubmit)}
       spacing={2}
-      maxWidth={{
+      width={{
         xs: '100%',
         sm: 400,
         md: 500,
@@ -38,114 +52,6 @@ export default function RegisterForm({ onSwitch }) {
       <Input name="password" control={control} fullWidth type="password" placeholder="Nhập mật khẩu của bạn" />
 
       <Input name="passwordconf" control={control} fullWidth type="password" placeholder="Nhập lại mật khẩu của bạn" />
-
-      {/* <Controller
-        name="firstName"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Tên"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            error={!!errors.firstName}
-            helperText={errors.firstName ? errors.firstName.message : ''}
-          />
-        )}
-      />
-      <FormControl component="fieldset" margin="normal">
-        <FormLabel component="legend">Giới tính</FormLabel>
-        <Controller
-          name="gender"
-          control={control}
-          render={({ field }) => (
-            <RadioGroup {...field} row defaultValue={'male'}>
-              <FormControlLabel value="male" control={<Radio />} label="Nữ" />
-              <FormControlLabel value="female" control={<Radio />} label="Nam" />
-            </RadioGroup>
-          )}
-        />
-        {errors.gender && <p style={{ color: 'red' }}>{errors.gender.message}</p>}
-      </FormControl>
-      <Controller
-        name="dob"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Ngày sinh"
-            type="date"
-            InputLabelProps={{ shrink: true }}
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            error={!!errors.dob}
-            helperText={errors.dob ? errors.dob.message : ''}
-          />
-        )}
-      />
-      <Controller
-        name="email"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Email"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            error={!!errors.email}
-            helperText={errors.email ? errors.email.message : ''}
-          />
-        )}
-      />
-      <Controller
-        name="password"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Mật khẩu"
-            type="password"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            error={!!errors.password}
-            helperText={errors.password ? errors.password.message : ''}
-          />
-        )}
-      />
-      <Controller
-        name="phoneNumber"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Số điện thoại"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            error={!!errors.phoneNumber}
-            helperText={errors.phoneNumber ? errors.phoneNumber.message : ''}
-          />
-        )}
-      />
-      <Controller
-        name="address"
-        control={control}
-        render={({ field }) => (
-          <TextField
-            {...field}
-            label="Địa chỉ"
-            variant="outlined"
-            margin="normal"
-            fullWidth
-            error={!!errors.address}
-            helperText={errors.address ? errors.address.message : ''}
-          />
-        )}
-      /> */}
 
       <Stack direction="row" spacing={3}>
         <Button type="submit" variant="contained" color="primary">

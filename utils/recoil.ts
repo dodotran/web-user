@@ -1,4 +1,3 @@
-import { LoginResponseType } from '@/features/auth/type'
 import { atom, AtomEffect } from 'recoil'
 
 const store = typeof window !== 'undefined' ? window.localStorage : null
@@ -28,10 +27,4 @@ export const cartState = atom({
   key: 'CART_STATE', // unique ID (with respect to other atoms/selectors)
   default: [], // default value (aka initial value)
   effects: [localStorageEffect('CART_STATE')],
-})
-
-export const authState = atom<LoginResponseType>({
-  key: 'AUTH_STATE',
-  default: null,
-  effects: [localStorageEffect('AUTH_STATE')],
 })

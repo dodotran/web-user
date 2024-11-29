@@ -14,7 +14,7 @@ export const Carousel = () => {
       <SwiperSlide>
         <Image
           alt="slide 1"
-          src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
+          src="https://chothuegimbal.com/wp-content/uploads/2022/02/Cho-thue-gimbal-min.jpg"
           width={1920}
           height={600}
           style={{ objectFit: 'cover', width: '100%' }}
@@ -23,7 +23,7 @@ export const Carousel = () => {
       <SwiperSlide>
         <Image
           alt="slide 1"
-          src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
+          src="https://chothuegimbal.com/wp-content/uploads/2023/04/Cover-scaled.jpg"
           width={1920}
           height={600}
           style={{ objectFit: 'cover', width: '100%' }}

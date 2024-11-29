@@ -34,4 +34,5 @@ const ContentPage = styled(Box)(({ theme }) => ({
   overflow: 'hidden',
   marginTop: HEADER_HEIGHT,
   backgroundColor: '#f7f7f7',
+  paddingBottom: theme.spacing(4),
 }))

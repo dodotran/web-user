@@ -26,5 +26,9 @@ export type LoginResponseType = {
   token: string
 }
 
+export type MeResponseType = {
+  data: UserType
+}
+
 export type RegisterInputType = z.infer<typeof RegisterInputSchema>
 export type LoginInputType = z.infer<typeof LoginInputSchema>
