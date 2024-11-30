@@ -5,9 +5,7 @@ export type PackageType = {
   id: string
   name: string
   description: string
-  pricePerDay: number
-  pricePerWeek: number
-  pricePerMonth: number
+  basePrice: number
   createdAt: string // ISO Date string
   updatedAt: string // ISO Date string
 }
@@ -18,9 +16,7 @@ export type CartItemType = {
   equipmentId: string // ID của thiết bị liên quan
   packageId: string | null // ID của gói (có thể null)
   quantity: number // Số lượng
-  priceDay: number // Giá theo ngày
-  priceWeek: number // Giá theo tuần
-  priceMonth: number // Giá theo tháng
+  basePrice: number // Giá gốc
   createdAt: string // Thời gian tạo mục
   updatedAt: string // Thời gian cập nhật mục
   equipment: EquipmentType // Thông tin thiết bị
@@ -28,19 +24,11 @@ export type CartItemType = {
 }
 
 export type CartType = {
-  id: string // ID của giỏ hàng
-  userId: string // ID của người dùng
-  totalAmountDay: number // Tổng số tiền theo ngày
-  totalAmountWeek: number // Tổng số tiền theo tuần
-  totalAmountMonth: number // Tổng số tiền theo tháng
-  createdAt: string // Thời gian tạo giỏ hàng
-  updatedAt: string // Thời gian cập nhật giỏ hàng
+  totalAmount: number // Thời gian cập nhật giỏ hàng
   items: CartItemType[] // Danh sách các mục trong giỏ hàng
 }
 
-export type CartResponseType = {
-  data: CartType
-}
+export type CartResponseType = CartType
 
 const CartItemSchema = z.object({
   equipmentId: z.string().min(1, 'Equipment ID phải có ít nhất 1 ký tự'), // ID của thiết bị

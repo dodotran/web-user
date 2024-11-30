@@ -6,7 +6,7 @@ import { useRouter } from 'next/navigation'
 import { Fragment, useState } from 'react'
 
 export const Account = () => {
-  const { data, isLoading } = useGetMe()
+  const { data } = useGetMe()
   const router = useRouter()
 
   const [anchorEl, setAnchorEl] = useState<HTMLButtonElement | null>(null)

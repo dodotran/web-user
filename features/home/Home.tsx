@@ -1,4 +1,5 @@
-import { Carousel, CategoryCarousel, NewRelease, News } from './components'
+import { Carousel, NewRelease, News } from './components'
+import { PackageNew } from './components/PackageNew'
 
 export const Home = () => {
   return (
@@ -7,9 +8,9 @@ export const Home = () => {
 
       <News />
 
-      <CategoryCarousel />
-
       <NewRelease />
+
+      <PackageNew />
     </>
   )
 }

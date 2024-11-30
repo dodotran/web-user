@@ -19,7 +19,7 @@ export function CategoryCarousel() {
   return (
     <Box mt={10}>
       <Typography fontSize={32} fontWeight={500} textAlign="center" marginBottom={3}>
-        Gói thiết bị
+        Danh mục sản phẩm
       </Typography>
 
       <Swiper

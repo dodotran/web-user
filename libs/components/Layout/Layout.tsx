@@ -32,7 +32,7 @@ const ContentPage = styled(Box)(({ theme }) => ({
   justifyContent: 'center',
   alignItems: 'center',
   overflow: 'hidden',
-  marginTop: HEADER_HEIGHT,
+  marginTop: HEADER_HEIGHT + 20,
   backgroundColor: '#f7f7f7',
   paddingBottom: theme.spacing(4),
 }))

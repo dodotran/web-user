@@ -23,7 +23,7 @@ const NewsCard = () => {
           style={{ objectFit: 'contain', width: '100%' }}
         />
 
-        <Typography fontWeight={400} fontSize={40} px={2}>
+        <Typography fontWeight={400} fontSize={40} px={2} lineHeight={1}>
           Cho thuê đèn flash máy ảnh – đèn flash rời
         </Typography>
 

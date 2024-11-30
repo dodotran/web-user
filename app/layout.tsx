@@ -8,7 +8,6 @@ import { RecoilRoot } from 'recoil'
 import { Toaster } from 'sonner'
 
 import { PayPalScriptProvider } from '@paypal/react-paypal-js'
-import { FacebookProvider, MessageUs } from 'react-facebook'
 import 'swiper/css'
 import 'swiper/css/navigation'
 import 'swiper/css/pagination'
@@ -44,14 +43,14 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
           <RecoilRoot>
             <QueryClientProvider client={queryClient}>
               <PayPalScriptProvider options={initialOptions}>
-                <FacebookProvider appId="123456789">
-                  <AxiosInterceptor>
-                    <MessageUs messengerAppId="123456789" pageId="123456789" />
-                    <Toaster position="top-right" richColors />
+                {/* <FacebookProvider appId="123456789"> */}
+                <AxiosInterceptor>
+                  {/* <MessageUs messengerAppId="123456789" pageId="123456789" /> */}
+                  <Toaster position="top-right" richColors />
 
-                    {children}
-                  </AxiosInterceptor>
-                </FacebookProvider>
+                  {children}
+                </AxiosInterceptor>
+                {/* </FacebookProvider> */}
               </PayPalScriptProvider>
             </QueryClientProvider>
           </RecoilRoot>

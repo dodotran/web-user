@@ -31,7 +31,7 @@ export type RentalResponseType = {
 }
 
 export const FeedbackInputSchema = z.object({
-  rating: z.number().min(1).max(5, 'Rating phải từ 1 đến 5'),
+  rating: z.number().min(0).max(5, 'Rating phải từ 1 đến 5'),
   comment: z.string().min(1, 'Ghi chú không được để trống'),
   userId: z.string().min(1, 'User ID không hợp lệ').optional(),
   rentalId: z.string().min(1, 'Rental ID không hợp lệ').optional(),
@@ -46,3 +46,19 @@ export const DamageReportInputSchema = z.object({
 })
 
 export type DamageReportInputType = z.infer<typeof DamageReportInputSchema>
+
+export type FeedbackType = {
+  id: string
+  rating: number
+  comment: string
+  adminResponse: string | null
+  replyDate: string | null // ISO format string
+  userId: string
+  rentalId: string
+  createdAt: string // ISO format string
+  updatedAt: string // ISO format string
+}
+
+export type FeedbackByRentalIdResponseType = {
+  data: FeedbackType[]
+}

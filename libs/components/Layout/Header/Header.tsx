@@ -2,7 +2,6 @@
 
 import { getMe } from '@/service/auth.service'
 import { getCarts } from '@/service/cart.service'
-import SearchIcon from '@mui/icons-material/Search'
 import ShoppingCartIcon from '@mui/icons-material/ShoppingCart'
 import { Badge, IconButton, Stack, Typography } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
@@ -113,9 +112,6 @@ export const Header = () => {
             <Badge badgeContent={data?.items?.length ?? 0} color="primary">
               <ShoppingCartIcon />
             </Badge>
-          </IconButton>
-          <IconButton>
-            <SearchIcon />
           </IconButton>
         </Stack>
       </Stack>

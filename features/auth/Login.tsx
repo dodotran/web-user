@@ -9,6 +9,7 @@ import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
+import { toast } from 'sonner'
 import { LoginInputSchema, LoginInputType } from './type'
 
 export default function LoginForm({ onSwitch }) {
@@ -26,9 +27,10 @@ export default function LoginForm({ onSwitch }) {
   const { mutate, isPending } = useMutation({
     mutationFn: login,
     onError: () => {
-      alert('Đăng nhập thất bại')
+      toast.success('Đăng nhập thất bại')
     },
     onSuccess: async (data) => {
+      toast.success('Đăng nhập thành công')
       const { token, user } = data
       router.push('/')
       await setAccessTokenToStorage(token)

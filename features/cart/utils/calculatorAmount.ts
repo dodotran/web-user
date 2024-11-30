@@ -1,25 +1,17 @@
 type CalculateAmountParams = {
-  totalAmountDay: number
-  totalAmountWeek: number
-  totalAmountMonth: number
+  rentalPrice: number
   durationType: 'day' | 'week' | 'month'
   durationValue: number | string
 }
 
-export const calculatorAmount = ({
-  durationType,
-  totalAmountDay,
-  totalAmountMonth,
-  totalAmountWeek,
-  durationValue,
-}: CalculateAmountParams) => {
+export const calculatorAmount = ({ durationType, rentalPrice, durationValue }: CalculateAmountParams) => {
   switch (durationType) {
     case 'day':
-      return totalAmountDay * Number(durationValue)
+      return rentalPrice * Number(durationValue)
     case 'week':
-      return totalAmountWeek * Number(durationValue)
+      return rentalPrice * Number(durationValue) * 7
     case 'month':
-      return totalAmountMonth * Number(durationValue)
+      return rentalPrice * Number(durationValue) * 30
     default:
       return 0
   }
