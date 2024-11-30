@@ -56,9 +56,11 @@ export const ProductCard = (
           <Image
             src={product.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
             alt={product.name}
-            width={4}
-            height={4}
-            layout="responsive"
+            width={400}
+            height={400}
+            style={{
+              width: '100%',
+            }}
           />
           <IconButton
             sx={{
@@ -77,14 +79,12 @@ export const ProductCard = (
           </IconButton>
         </Box>
         <Typography variant="body2" sx={{ fontSize: '14px', fontWeight: 400, color: '#ccc', marginY: 2 }}>
-          Loại thiết bị {product.category?.name ?? 'Chưa có loại'}
+          Loại thiết bị: {product.category?.name ?? 'Chưa có loại'}
         </Typography>
         <Typography variant="h6" sx={{ marginBottom: 1, cursor: 'pointer' }}>
           {product.name}
         </Typography>
-        <Typography variant="body1">Giá thuê ngày: {formatMoney(product.pricePerDay)}</Typography>
-        <Typography variant="body1">Giá thuê tuần: {formatMoney(product.pricePerWeek)}</Typography>
-        <Typography variant="body1">Giá thuê tháng: {formatMoney(product.pricePerMonth)}</Typography>
+        <Typography variant="body1">Giá thuê: {formatMoney(product.rentalPrice)}</Typography>
       </Box>
 
       <ProductDetailModal

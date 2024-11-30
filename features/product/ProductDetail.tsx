@@ -7,6 +7,7 @@ import Image from 'next/image'
 import { useParams } from 'next/navigation'
 import { NewRelease } from '../home/components'
 import { ProductInformation } from './components'
+import { FAQComponent } from './components/ProductInformation/FAQ'
 
 export const ProductDetail = () => {
   const { id } = useParams()
@@ -31,7 +32,10 @@ export const ProductDetail = () => {
           marginTop: 3,
           py: 1,
           color: 'black',
-          fontSize: '14px',
+          fontSize: {
+            xs: '12px',
+            sm: '14px',
+          },
           fontWeight: 400,
           borderTop: '1px solid #DDDD',
           borderBottom: '1px solid #DDDD',
@@ -40,14 +44,14 @@ export const ProductDetail = () => {
         <Link underline="none" color="black" href="/">
           Trang chủ
         </Link>
-        <Typography sx={{ color: 'black', fontSize: '14px', fontWeight: 400 }}>Chi tiết sản phẩm</Typography>
-        <Typography sx={{ color: 'black', fontSize: '14px', fontWeight: 400 }}>{data?.name}</Typography>
+        <Typography sx={{ color: 'black', fontSize: 'inherit', fontWeight: 400 }}>Chi tiết sản phẩm</Typography>
+        <Typography sx={{ color: 'black', fontSize: 'inherit', fontWeight: 400 }}>{data?.name}</Typography>
       </Breadcrumbs>
 
       <Stack
         direction={{
           xs: 'column',
-          sm: 'row',
+          lg: 'row',
         }}
         spacing={{
           xs: 2,
@@ -61,22 +65,25 @@ export const ProductDetail = () => {
           height={500}
           style={{
             width: '100%',
-            height: '100%',
-            aspectRatio: '1/1',
-            flex: 4,
+            height: 'auto',
+            maxHeight: 500,
+            flex: 1,
+            borderRadius: '8px',
           }}
         />
 
         <ProductInformation {...data} />
       </Stack>
 
-      <Stack p={2} spacing={1}>
+      <Stack p={2} spacing={1} bgcolor="white">
         <Typography variant="h6" fontWeight={600}>
           Mô tả sản phẩm
         </Typography>
         <Divider />
         <Typography>{data?.description}</Typography>
       </Stack>
+
+      <FAQComponent />
 
       <NewRelease />
     </Stack>

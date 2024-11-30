@@ -2,11 +2,15 @@
 
 import { EquipmentType } from '@/features'
 import { base } from '@/libs/configs'
+import { createCart } from '@/service/cart.service'
 import { formatMoney } from '@/utils'
 import CloseIcon from '@mui/icons-material/Close'
-import { Box, Button, IconButton, Modal, Typography } from '@mui/material'
+import { Box, Button, Card, CardContent, CardMedia, IconButton, Modal, Stack, Typography } from '@mui/material'
+import { useMutation, useQueryClient } from '@tanstack/react-query'
 import Image from 'next/image'
 import { useRouter } from 'next/navigation'
+import { useState } from 'react'
+import { toast } from 'sonner'
 
 interface ProductDetailModalProps {
   open: boolean
@@ -26,6 +30,74 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClo
     if (type === 'package') {
       router.push(`/packages/${product.id}`)
     }
+  }
+
+  const [quantity, setQuantity] = useState(1)
+
+  const queryClient = useQueryClient()
+
+  const { mutate } = useMutation({
+    mutationFn: createCart,
+    onSuccess: () => {
+      setQuantity(1)
+      queryClient.invalidateQueries({ queryKey: ['Carts'] })
+      toast.success(
+        <Card sx={{ display: 'flex', alignItems: 'center', padding: 2, gap: 2 }}>
+          {/* Hình ảnh sản phẩm */}
+          <CardMedia
+            component="img"
+            src={product?.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
+            alt="product"
+            sx={{
+              width: 80,
+              height: 80,
+              borderRadius: 1,
+              objectFit: 'cover',
+            }}
+          />
+
+          {/* Nội dung thông báo */}
+          <CardContent sx={{ padding: 0 }}>
+            <Typography variant="body1" fontWeight={500} mb={1}>
+              Đã thêm vào giỏ hàng thành công!
+            </Typography>
+            <Typography variant="h6" fontWeight={600} mb={0.5}>
+              {product?.name}
+            </Typography>
+            <Typography variant="body2" color="text.secondary">
+              Số lượng: {quantity}
+            </Typography>
+          </CardContent>
+        </Card>,
+      )
+    },
+    onError: () => {
+      toast.error('Thêm vào giỏ hàng thất bại')
+    },
+  })
+
+  const handleAddToCart = () => {
+    const isAuth = queryClient.getQueryData(['ME'])
+    if (!isAuth) {
+      router.push('/auth')
+      return
+    }
+
+    if (type === 'package') {
+      mutate({
+        packageId: String(product.id),
+        quantity: quantity,
+        price: product.rentalPrice ?? 10,
+      })
+
+      return
+    }
+
+    mutate({
+      equipmentId: String(product.id),
+      quantity: quantity,
+      price: product.rentalPrice ?? 10,
+    })
   }
 
   return (
@@ -51,15 +123,13 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClo
         <Box sx={{ display: 'flex', gap: 5 }}>
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2, flex: 1 }}>
             <Image
-              src="https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
+              src={product.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
               alt={product.name}
-              width={400}
-              height={400}
+              width={300}
+              height={500}
               objectFit="cover"
-              layout="responsive"
               style={{
                 width: '100%',
-                height: '100%',
               }}
             />
           </Box>
@@ -85,21 +155,9 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClo
               Thương hiệu: OXD
             </Typography>
             <Typography variant="body1" fontWeight={600} sx={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-              Giá thuê ngày:{' '}
+              Giá thuê :{' '}
               <Typography component="span" fontSize={20} fontWeight={700}>
-                {formatMoney(product.pricePerDay)}
-              </Typography>
-            </Typography>
-            <Typography variant="body1" fontWeight={600} sx={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-              Giá thuê tuần:{' '}
-              <Typography component="span" fontSize={20} fontWeight={700}>
-                {formatMoney(product.pricePerWeek)}
-              </Typography>
-            </Typography>
-            <Typography variant="body1" fontWeight={600} sx={{ display: 'flex', gap: 5, alignItems: 'center' }}>
-              Giá thuê tháng:{' '}
-              <Typography component="span" fontSize={20} fontWeight={700}>
-                {formatMoney(product.pricePerMonth)}
+                {formatMoney(product.rentalPrice)}
               </Typography>
             </Typography>
             {/* <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
@@ -139,15 +197,87 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClo
               </Button>
             </Box> */}
             {/* Add to Cart Button */}
-            <Button
-              variant="contained"
-              color="error"
-              fullWidth
-              sx={{ mb: 2, backgroundColor: base.primary, color: base.white }}
+            <Box sx={{ display: 'flex', alignItems: 'center', my: 2 }}>
+              <Typography fontSize={20} lineHeight="32px" fontWeight={600} sx={{ mr: 2 }}>
+                Số lượng:
+              </Typography>
+              <Button
+                variant="outlined"
+                size="small"
+                sx={{
+                  borderRadius: 0,
+                  padding: 1,
+                  backgroundColor: 'white',
+                  minWidth: 40,
+                  height: 40,
+                  borderColor: '#f3f4f4',
+                }}
+                onClick={() => setQuantity(quantity > 1 ? quantity - 1 : 1)}
+              >
+                -
+              </Button>
+              <Stack
+                sx={{
+                  mx: 1,
+                  border: '1px solid #f3f4f4',
+                  background: 'white',
+                  width: 40,
+                  height: 40,
+                  justifyContent: 'center',
+                  alignItems: 'center',
+                }}
+              >
+                <Typography>{quantity}</Typography>
+              </Stack>
+              <Button
+                variant="outlined"
+                size="small"
+                sx={{
+                  borderRadius: 0,
+                  padding: 1,
+                  backgroundColor: 'white',
+                  minWidth: '40px',
+                  height: '40px',
+                  borderColor: '#f3f4f4',
+                }}
+                onClick={() => setQuantity(quantity + 1)}
+              >
+                +
+              </Button>
+            </Box>
+
+            <Stack>
+              <Button
+                variant="outlined"
+                sx={{
+                  flex: 1,
+                  borderColor: base.primary,
+                  color: base.primary,
+                  fontWeight: 700,
+                  borderRadius: 0,
+                  ':hover': {
+                    borderColor: base.primary,
+                    color: base.primary,
+                  },
+                  ':focus': {
+                    borderColor: base.primary,
+                    color: base.primary,
+                  },
+                }}
+                onClick={handleAddToCart}
+              >
+                Thêm vào giỏ hàng
+              </Button>
+            </Stack>
+
+            <Typography
+              variant="body2"
+              fontWeight={500}
+              sx={{ cursor: 'pointer', textDecoration: 'underline' }}
               onClick={handleRedirect}
             >
               Xem chi tiết
-            </Button>
+            </Typography>
           </Box>
         </Box>
       </Box>

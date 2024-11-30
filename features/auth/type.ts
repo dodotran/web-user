@@ -13,12 +13,23 @@ export const RegisterInputSchema = z.object({
   passwordconf: z.string().min(6).max(255),
 })
 
+export enum IdentityDocStatus {
+  VERIFIED = 'verified',
+  REJECTED = 'rejected',
+}
+
 // TYPE
 export type UserType = {
   id: string
   name: string
   email: string
   role: string
+  avatar: string
+  phoneNumber: string
+  dateOfBirth: string
+  gender: string
+  identityDoc: string
+  statusIdentityDoc: IdentityDocStatus | null
 }
 
 export type LoginResponseType = {

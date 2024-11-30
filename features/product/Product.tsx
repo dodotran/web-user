@@ -1,14 +1,14 @@
 'use client'
 
 import { ProductCard } from '@/libs/components/ProductCard/ProductCard'
-import { getAllPackage } from '@/service/product.service'
+import { getAllEquipment } from '@/service/product.service'
 import { Box, Breadcrumbs, Grid, Link, Typography } from '@mui/material'
 import { useQuery } from '@tanstack/react-query'
 
-export const Package = () => {
+export const Product = () => {
   const { data: devices } = useQuery({
-    queryKey: ['allDevice'],
-    queryFn: () => getAllPackage(),
+    queryKey: ['product'],
+    queryFn: () => getAllEquipment(),
   })
 
   return (
@@ -18,7 +18,7 @@ export const Package = () => {
           <Link underline="none" color="black" href="/">
             Trang chủ
           </Link>
-          <Typography sx={{ color: 'black', fontSize: '14px', fontWeight: 400 }}>Gói thiết bị</Typography>
+          <Typography sx={{ color: 'black', fontSize: '14px', fontWeight: 400 }}>Thiết bị</Typography>
         </Breadcrumbs>
       </Box>
       <Grid container spacing={5} alignItems={'center'}>
@@ -32,7 +32,7 @@ export const Package = () => {
         </Grid>
         <Grid item xs={12} md={6}>
           <Typography variant="h1" component="h1" margin={'20px 0'}>
-            Gói thiết bị
+            Thiết bị
           </Typography>
         </Grid>
       </Grid>
@@ -49,7 +49,7 @@ export const Package = () => {
         <Grid container spacing={4}>
           {devices?.map((device) => (
             <Grid item xs={12} md={3} key={device?.id}>
-              <ProductCard {...device} type="package" />
+              <ProductCard {...device} />
             </Grid>
           ))}
         </Grid>

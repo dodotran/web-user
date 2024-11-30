@@ -2,10 +2,16 @@ import { EquipmentType } from '@/features/home'
 import { base } from '@/libs/configs'
 import { createCart } from '@/service/cart.service'
 import { formatMoney } from '@/utils'
-import { Box, Button, Card, CardContent, CardMedia, Divider, Stack, Typography } from '@mui/material'
+import DeliveryDiningIcon from '@mui/icons-material/DeliveryDining'
+import FlightIcon from '@mui/icons-material/Flight'
+import LocalShippingIcon from '@mui/icons-material/LocalShipping'
+import PercentIcon from '@mui/icons-material/Percent'
+import ShieldIcon from '@mui/icons-material/Shield'
+import ThumbUpIcon from '@mui/icons-material/ThumbUp'
+import { Box, Button, Card, CardContent, CardMedia, Divider, Grid, Stack, Typography } from '@mui/material'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useParams, useRouter } from 'next/navigation'
-import { useState } from 'react'
+import React, { useState } from 'react'
 import { toast } from 'sonner'
 
 export const ProductInformation: React.FC<
@@ -28,7 +34,7 @@ export const ProductInformation: React.FC<
           {/* Hình ảnh sản phẩm */}
           <CardMedia
             component="img"
-            src="https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
+            src={data?.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
             alt="product"
             sx={{
               width: 80,
@@ -77,17 +83,18 @@ export const ProductInformation: React.FC<
     mutate({
       equipmentId: String(id),
       quantity: quantity,
+      price: data.rentalPrice ?? 10,
     })
   }
 
   return (
-    <Stack flex={6} minHeight={750} spacing={4.5}>
+    <Stack flex={1} minHeight={750} spacing={4.5}>
       <Stack gap={2}>
         <Typography maxWidth={500} height="auto" fontSize={28} lineHeight="40px" fontWeight={760}>
           {data?.name}
         </Typography>
 
-        <Stack direction="row" gap={1}>
+        <Stack direction={{ xs: 'column', sm: 'row' }} gap={1}>
           <Typography fontSize={16} lineHeight="26px">
             Mã: <b>{data?.id}</b>
           </Typography>
@@ -100,15 +107,7 @@ export const ProductInformation: React.FC<
 
       <Stack spacing={0.5}>
         <Typography fontSize={20} lineHeight="32px" fontWeight={600}>
-          Giá thuê ngày: {formatMoney(data.pricePerDay)}
-        </Typography>
-
-        <Typography fontSize={20} lineHeight="32px" fontWeight={600}>
-          Giá thuê tháng: {formatMoney(data.pricePerMonth)}
-        </Typography>
-
-        <Typography fontSize={20} lineHeight="32px" fontWeight={600}>
-          Giá thuê tuần: {formatMoney(data.pricePerWeek)}
+          Giá thuê: {formatMoney(data.rentalPrice)}
         </Typography>
       </Stack>
 
@@ -204,19 +203,51 @@ export const ProductInformation: React.FC<
             Thuê ngay
           </Button>
         </Stack>
-        <Button
-          type="submit"
-          variant="contained"
-          color="primary"
-          fullWidth
-          sx={{
-            borderRadius: 0,
-            fontWeight: 700,
-          }}
-        >
-          Click vào đây để nhận ưu đãi
-        </Button>
       </Stack>
+
+      <Grid container spacing={4}>
+        {/* Khuyến mãi */}
+        <Grid item xs={12} md={6}>
+          <Typography variant="h6" fontWeight="bold" mb={2}>
+            Khuyến mãi dành cho bạn
+          </Typography>
+          <Stack spacing={3}>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <LocalShippingIcon color="primary" />
+              <Typography variant="body2">Miễn Phí Vận Chuyển Chiều Về Khi thuê từ 5 bộ trong cùng đơn hàng</Typography>
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <PercentIcon color="primary" />
+              <Typography variant="body2">Giảm 5% Khi Thuê Trong 24h Tại Hồ Chí Minh</Typography>
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <FlightIcon color="primary" />
+              <Typography variant="body2">Chương Trình Combo Du Lịch Giảm Giá Lên Đến 90%</Typography>
+            </Stack>
+          </Stack>
+        </Grid>
+
+        {/* Chính sách */}
+        <Grid item xs={12} md={6}>
+          <Typography variant="h6" fontWeight="bold" mb={2}>
+            Chính sách bán hàng
+          </Typography>
+          <Stack spacing={3}>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <ShieldIcon color="primary" />
+              <Typography variant="body2">Cam kết 100% chính hãng</Typography>
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <ThumbUpIcon color="primary" />
+              <Typography variant="body2">Hỗ trợ 24/7</Typography>
+            </Stack>
+            <Stack direction="row" alignItems="center" spacing={2}>
+              <DeliveryDiningIcon color="primary" />
+              <Typography variant="body2">Shipper nhận và lấy váy tại nhà</Typography>
+            </Stack>
+          </Stack>
+        </Grid>
+      </Grid>
     </Stack>
   )
 }

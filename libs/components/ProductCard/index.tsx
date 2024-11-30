@@ -72,7 +72,12 @@ function ProductCard({ product }) {
         <Typography variant="body1">Giá thuê tháng: {product.priceMonth}</Typography>
       </Box>
 
-      <ProductDetailModal open={openDetail} handleClose={() => setOpenDetail(false)} product={product} />
+      <ProductDetailModal
+        open={openDetail}
+        handleClose={() => setOpenDetail(false)}
+        product={product}
+        type="equipment"
+      />
     </Paper>
   )
 }

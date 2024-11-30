@@ -1,6 +1,7 @@
 import { uploadImage } from '@/service/upload.service'
 import DeleteOutlineIcon from '@mui/icons-material/DeleteOutline'
-import { Box, IconButton, Typography } from '@mui/material'
+import InsertPhotoIcon from '@mui/icons-material/InsertPhoto'
+import { Box, IconButton, Stack, Typography } from '@mui/material'
 import { styled } from '@mui/material/styles'
 import { useMutation } from '@tanstack/react-query'
 import React, { useCallback, useState } from 'react'
@@ -114,12 +115,29 @@ const UploadImage = ({
       <DropzoneContainer {...getRootProps()} height={300}>
         <input {...getInputProps()} id={fieldName} hidden />
         {!image ? (
-          <DropzoneText variant="body2" mt={14}>
-            {content}
-          </DropzoneText>
+          <ImagePreview>
+            {value ? (
+              <img src={value} alt="Preview" style={{ width: '100%', height: '240px', objectFit: 'contain' }} />
+            ) : (
+              <Stack
+                direction="column"
+                spacing={1}
+                justifyContent="center"
+                alignItems="center"
+                width="100%"
+                height="240px"
+              >
+                <InsertPhotoIcon />
+              </Stack>
+            )}
+          </ImagePreview>
         ) : (
           <ImagePreview>
-            <img src={image} alt="Preview" style={{ width: '100%', height: '240px', objectFit: 'contain' }} />
+            <img
+              src={image ?? defaultValue}
+              alt="Preview"
+              style={{ width: '100%', height: '240px', objectFit: 'contain' }}
+            />
             <RemoveButton color="error" onClick={handleRemoveImage}>
               <DeleteOutlineIcon />
             </RemoveButton>

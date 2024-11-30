@@ -3,15 +3,15 @@ import { CartInputType } from '@/features/product/type'
 import request from '@/libs/configs/axios/axios'
 
 export const createCart = async (cart: CartInputType) => {
-  const response = await request.post('/carts/create/by-me', cart)
+  const response = await request.post('/carts/add/by-me', cart)
 
   return response.data
 }
 
 export const getCarts = async () => {
-  const response = await request.get<CartResponseType>('/carts/by-me')
+  const response = await request.get<CartResponseType>('/carts/get/by-me')
 
-  return response.data.data
+  return response.data
 }
 
 export const deleteCart = async (cartItemId: string) => {

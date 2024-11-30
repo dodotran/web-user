@@ -1,9 +1,8 @@
 import { UpdateIntentInputType, UpdateUserInputType } from '@/features/profile/type'
 import request from '@/libs/configs/axios/axios'
 
-export const updateInformation = async (data: UpdateUserInputType & { id: string }) => {
-  const { id, ...res } = data
-  const response = await request.patch(`/users/${id}`, res)
+export const updateInformation = async (data: UpdateUserInputType) => {
+  const response = await request.patch(`/users/update/profile`, data)
 
   return response.data
 }

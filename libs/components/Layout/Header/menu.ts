@@ -4,6 +4,10 @@ export const menu = [
     href: '/',
   },
   {
+    title: 'Danh mục ',
+    href: '/categories',
+  },
+  {
     title: 'Gói thiết bị',
     href: '/packages',
   },

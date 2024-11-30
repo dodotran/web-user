@@ -1,4 +1,5 @@
 import { DatePicker, Input, Select } from '@/libs/components/Form'
+import { useGetMe } from '@/libs/hooks'
 import { clearCart } from '@/service/cart.service'
 import { getDiscountById } from '@/service/discount.service'
 import { createRental } from '@/service/rental.service'
@@ -6,20 +7,24 @@ import { formatMoney } from '@/utils'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Card, CardContent, Divider, Stack, TextField, Typography } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import { useEffect, useRef } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { PayPalButton } from 'react-paypal-button-v2'
 import { toast } from 'sonner'
+import { IdentityDocStatus } from '../auth/type'
 import { durationOptions } from '../product/option'
 import { CartInputSchema, CartInputType, CartType } from './type'
-import { calculateEndDate, calculatorAmount } from './utils'
+import { calculateDeposit, calculateEndDate, calculatorAmount } from './utils'
 
 interface OrderInfoProps {
   cart: CartType
 }
 
 const OrderInfo = ({ cart }: OrderInfoProps) => {
+  const { data: currentUser } = useGetMe()
   const queryClient = useQueryClient()
+  const [rentalAmount, setRentalAmount] = useState(0)
+
   const { control, watch, setValue, handleSubmit, reset } = useForm<CartInputType>({
     defaultValues: {
       endDate: '',
@@ -58,16 +63,15 @@ const OrderInfo = ({ cart }: OrderInfoProps) => {
 
   useEffect(() => {
     if (cart) {
-      if (cart?.totalAmountDay && cart?.totalAmountMonth && cart?.totalAmountWeek) {
+      if (cart?.totalAmount) {
         const total = calculatorAmount({
           durationType,
           durationValue,
-          totalAmountDay: cart?.totalAmountDay,
-          totalAmountWeek: cart?.totalAmountWeek,
-          totalAmountMonth: cart?.totalAmountMonth,
+          rentalPrice: cart?.totalAmount,
         })
 
-        setValue('totalAmount', total)
+        setRentalAmount(total)
+        setValue('totalAmount', total + calculateDeposit(cart))
       }
     }
   }, [durationType, durationValue, cart])
@@ -89,6 +93,10 @@ const OrderInfo = ({ cart }: OrderInfoProps) => {
 
   const onSubmit: SubmitHandler<CartInputType> = (data) => {
     const { totalAmount, durationType, durationValue, startDate, endDate, address } = data
+    if (currentUser.statusIdentityDoc !== IdentityDocStatus.VERIFIED) {
+      toast.error('Tài khoản của bạn phải được xác thực để có thể thuê thiết bị')
+      return
+    }
 
     mutate({
       startDate,
@@ -196,6 +204,26 @@ const OrderInfo = ({ cart }: OrderInfoProps) => {
 
           <Divider sx={{ mb: 2 }} />
 
+          <Typography variant="h6" sx={{ fontWeight: 600 }}>
+            Thông tin thanh toán
+          </Typography>
+
+          <Typography variant="h6" sx={{ fontWeight: 600, display: 'flex', justifyContent: 'space-between' }}>
+            Tiền đặt cọc: <strong style={{ color: 'red' }}>{formatMoney(calculateDeposit(cart))}</strong>
+          </Typography>
+
+          <Typography variant="h6" sx={{ fontWeight: 600, display: 'flex', justifyContent: 'space-between' }}>
+            Tiền thuê: <strong style={{ color: 'red' }}>{formatMoney(rentalAmount)}</strong>
+          </Typography>
+
+          <Typography variant="h6" sx={{ fontWeight: 600, display: 'flex', justifyContent: 'space-between' }}>
+            Giảm:{' '}
+            <strong style={{ color: 'red' }}>
+              {formatMoney(watch('totalAmount') - rentalAmount - calculateDeposit(cart))}
+            </strong>
+          </Typography>
+          <Divider sx={{ mb: 2 }} />
+
           <Typography variant="h6" sx={{ fontWeight: 600, display: 'flex', justifyContent: 'space-between' }}>
             Tổng tiền: <strong style={{ color: 'red' }}>{formatMoney(watch('totalAmount'))}</strong>
           </Typography>
@@ -204,23 +232,31 @@ const OrderInfo = ({ cart }: OrderInfoProps) => {
             <li>Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.</li>
           </ul>
 
-          <Stack direction="row" spacing={6}>
-            <Stack width={800} bgcolor="base.white" borderRadius={1} spacing={3}>
-              <Typography fontSize={20} fontWeight={700}>
-                Phương thức thanh toán online
+          {currentUser?.statusIdentityDoc !== IdentityDocStatus.VERIFIED ? (
+            <Stack spacing={2}>
+              <Typography variant="body2" sx={{ color: 'red' }}>
+                Tài khoản của bạn chưa được xác thực. Vui lòng xác thực tài khoản để có thể thuê thiết bị.
               </Typography>
-
-              <PayPalButton
-                amount={total}
-                onSuccess={() => {
-                  handleSubmit(onSubmit)()
-                }}
-                onError={() => {
-                  toast.error('Thanh toán thất bại')
-                }}
-              />
             </Stack>
-          </Stack>
+          ) : (
+            <Stack direction="row" spacing={6}>
+              <Stack width={800} bgcolor="base.white" borderRadius={1} spacing={3}>
+                <Typography fontSize={20} fontWeight={700}>
+                  Phương thức thanh toán online
+                </Typography>
+
+                <PayPalButton
+                  amount={total}
+                  onSuccess={() => {
+                    handleSubmit(onSubmit)()
+                  }}
+                  onError={() => {
+                    toast.error('Thanh toán thất bại')
+                  }}
+                />
+              </Stack>
+            </Stack>
+          )}
         </Stack>
       </CardContent>
     </Card>
