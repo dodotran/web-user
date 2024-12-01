@@ -6,6 +6,7 @@ export type PackageType = {
   name: string
   description: string
   basePrice: number
+  image: string
   createdAt: string // ISO Date string
   updatedAt: string // ISO Date string
 }

@@ -74,7 +74,10 @@ export const PackageDetail = () => {
               {data.equipments.map((equipment, index) => (
                 <Image
                   key={index}
-                  src={equipment.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
+                  src={
+                    equipment.image ??
+                    'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ='
+                  }
                   alt={equipment?.name ?? 'image'}
                   width={200}
                   height={200}
@@ -87,7 +90,10 @@ export const PackageDetail = () => {
             </Stack>
           ) : (
             <Image
-              src={data.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
+              src={
+                data.image ??
+                'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ='
+              }
               alt={data?.name ?? 'image'}
               width={500}
               height={500}

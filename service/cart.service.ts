@@ -16,7 +16,7 @@ export const getCarts = async () => {
 
 export const deleteCart = async (cartItemId: string) => {
   const response = await request.delete(`/carts/remove/by-me`, {
-    data: { cartItemId },
+    data: { itemId: cartItemId },
   })
 
   return response.data

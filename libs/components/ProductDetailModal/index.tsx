@@ -46,7 +46,10 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClo
           {/* Hình ảnh sản phẩm */}
           <CardMedia
             component="img"
-            src={product?.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
+            src={
+              product?.image ??
+              'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ='
+            }
             alt="product"
             sx={{
               width: 80,
@@ -124,7 +127,10 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClo
         <Box sx={{ display: 'flex', gap: 5 }}>
           <Box sx={{ display: 'flex', justifyContent: 'center', mb: 2, flex: 1 }}>
             <Image
-              src={product.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
+              src={
+                product.image ??
+                'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ='
+              }
               alt={product.name}
               width={300}
               height={500}
