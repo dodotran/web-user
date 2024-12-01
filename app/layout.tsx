@@ -46,7 +46,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
                 {/* <FacebookProvider appId="123456789"> */}
                 <AxiosInterceptor>
                   {/* <MessageUs messengerAppId="123456789" pageId="123456789" /> */}
-                  <Toaster position="top-right" richColors />
+                  <Toaster position="top-right" richColors closeButton />
 
                   {children}
                 </AxiosInterceptor>

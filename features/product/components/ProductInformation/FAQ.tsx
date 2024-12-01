@@ -1,5 +1,5 @@
 import ExpandMoreIcon from '@mui/icons-material/ExpandMore'
-import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Typography } from '@mui/material'
+import { Accordion, AccordionDetails, AccordionSummary, Box, Button, Stack, Typography } from '@mui/material'
 import { useRouter } from 'next/navigation'
 
 const FAQComponent = () => {
@@ -34,7 +34,7 @@ const FAQComponent = () => {
   ]
 
   return (
-    <Box width="100%" bgcolor="white">
+    <Stack width="100%" bgcolor="white" alignItems="center">
       <Box
         maxWidth={{ xs: '100%', md: 800 }}
         sx={{
@@ -98,7 +98,7 @@ const FAQComponent = () => {
           </Button>
         </Box>
       </Box>
-    </Box>
+    </Stack>
   )
 }
 

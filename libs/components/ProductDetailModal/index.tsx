@@ -80,6 +80,7 @@ const ProductDetailModal: React.FC<ProductDetailModalProps> = ({ open, handleClo
     const isAuth = queryClient.getQueryData(['ME'])
     if (!isAuth) {
       router.push('/auth')
+      toast.info('Vui lòng đăng nhập để thêm sản phẩm vào giỏ hàng')
       return
     }
 

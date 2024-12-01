@@ -57,3 +57,20 @@ export async function getEquipmentsByCategory({
   )
   return response.data.data
 }
+
+export async function getFeedbackByEquipmentIdOfPackageId({
+  equipmentId,
+  packageId,
+}: {
+  equipmentId?: string
+  packageId?: string
+}) {
+  const response = await request.get<FeedbackByRentalIdResponseType>(`/feedbacks/by-equipment-or-package`, {
+    params: {
+      equipmentId,
+      packageId,
+    },
+  })
+
+  return response.data.data
+}
