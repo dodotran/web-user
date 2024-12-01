@@ -44,7 +44,11 @@ const CartItem = (cart: CartItemType) => {
         <Box
           component="img"
           sx={{ width: 80, height: 80, mr: 2, borderRadius: 1, objectFit: 'cover' }}
-          src={cart.equipment?.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
+          src={
+            cart.equipment?.image ??
+            cart.package.image ??
+            'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ='
+          }
           alt={cart.cartId}
         />
         <Box

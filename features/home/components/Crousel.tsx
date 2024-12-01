@@ -32,7 +32,7 @@ export const Carousel = () => {
       <SwiperSlide>
         <Image
           alt="slide 1"
-          src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
+          src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="
           width={1920}
           height={600}
           style={{ objectFit: 'cover', width: '100%' }}
@@ -41,7 +41,7 @@ export const Carousel = () => {
       <SwiperSlide>
         <Image
           alt="slide 1"
-          src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
+          src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="
           width={1920}
           height={600}
           style={{ objectFit: 'cover', width: '100%' }}
@@ -50,7 +50,7 @@ export const Carousel = () => {
       <SwiperSlide>
         <Image
           alt="slide 1"
-          src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
+          src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="
           width={1920}
           height={600}
           style={{ objectFit: 'cover', width: '100%' }}

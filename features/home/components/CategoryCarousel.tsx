@@ -37,7 +37,7 @@ export function CategoryCarousel() {
             <SwiperSlide key={category.id}>
               <CategoryCard>
                 <Image
-                  src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg"
+                  src="https://cdn2.cellphones.com.vn/insecure/rs:fill:0:0/q:90/plain/https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ="
                   alt="image"
                   width={300}
                   height={280}
