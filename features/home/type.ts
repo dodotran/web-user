@@ -20,6 +20,7 @@ export type EquipmentType = {
   createdAt: string
   updatedAt: string
   category: CategoryType
+  equipmentId: string
   equipments: EquipmentType[]
 }
 

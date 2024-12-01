@@ -45,8 +45,8 @@ export const CartInputSchema = z.object({
     .min(1, 'Thời lượng phải lớn hơn hoặc bằng 1')
     .or(z.string().min(1, 'Thời lượng phải lớn hơn hoặc bằng 1')), // Giá trị thời lượng
   durationType: z.enum(['day', 'week', 'month']), // Loại thời lượng (day/week/month)
-  startDate: z.string().min(1, 'Ngày bắt đầu phải có ít nhất 1 ký tự'), // Ngày bắt đầu
-  endDate: z.string().min(1, 'Ngày kết thúc phải có ít nhất 1 ký tự'), // Ngày kết thúc
+  startDate: z.string().min(1, 'Ngày bắt đầu phải có ít nhất 1 ký tự').or(z.date()), // Ngày bắt đầu
+  endDate: z.string().min(1, 'Ngày kết thúc phải có ít nhất 1 ký tự').or(z.date()), // Ngày kết thúc
   items: z.array(CartItemSchema).optional().nullable(), // Danh sách các mục trong giỏ hàng
   totalAmount: z.number().min(0, 'Tổng số tiền phải lớn hơn hoặc bằng 0'), // Tổng số tiền, không âm
   address: z.string().min(1, 'Địa chỉ phải có ít nhất 1 ký tự'), // Địa chỉ

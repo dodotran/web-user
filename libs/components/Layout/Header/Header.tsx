@@ -102,6 +102,7 @@ export const Header = () => {
         {/* Actions */}
         <Stack direction="row" justifyContent="space-between" gap={2} alignItems="center">
           <Account />
+
           <IconButton
             sx={{
               position: 'relative',

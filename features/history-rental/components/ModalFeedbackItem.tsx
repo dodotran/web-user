@@ -3,22 +3,30 @@
 import { Input } from '@/libs/components/Form'
 import { ModalCustom } from '@/libs/components/Modal'
 import { useGetMe } from '@/libs/hooks'
-import { getFeedbackById } from '@/service/product.service'
-import { feedbackRental } from '@/service/rental.service'
+import { getFeedbackByEquipmentIdOfPackageId } from '@/service/product.service'
+import { feedbackItem } from '@/service/rental.service'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, FormControl, FormHelperText, Rating, Stack } from '@mui/material'
+import { Button, FormControl, FormHelperText, Rating, Stack, Typography } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
-import { FeedbackInputSchema, FeedbackInputType } from '../type'
+import { FeedbackInputType, FeedbackItemInputSchema, FeedbackItemInputType } from '../type'
 
 interface ModalReportProps {
   open: boolean
   handleClose: () => void
   rentalId: string
+  equipmentId?: string
+  packageId?: string
 }
 
-export const ModalFeedback: React.FC<ModalReportProps> = ({ handleClose, open, rentalId }) => {
+export const ModalFeedbackItem: React.FC<ModalReportProps> = ({
+  handleClose,
+  open,
+  rentalId,
+  equipmentId,
+  packageId,
+}) => {
   const { data: meData } = useGetMe()
   const queryClient = useQueryClient()
 
@@ -27,20 +35,21 @@ export const ModalFeedback: React.FC<ModalReportProps> = ({ handleClose, open, r
     handleSubmit,
     reset,
     formState: { errors },
-  } = useForm<FeedbackInputType>({
+  } = useForm<FeedbackItemInputType>({
     defaultValues: {
       comment: '',
-      rentalId,
+      rentalItemId: rentalId,
       rating: 0,
+      userId: meData.id,
     },
-    resolver: zodResolver(FeedbackInputSchema),
+    resolver: zodResolver(FeedbackItemInputSchema),
   })
 
   const { mutate } = useMutation({
-    mutationFn: feedbackRental,
+    mutationFn: feedbackItem,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['reviews', rentalId],
+        queryKey: ['reviews-items', equipmentId, packageId],
       })
       toast.success('Đánh giá thành công')
       reset()
@@ -60,8 +69,12 @@ export const ModalFeedback: React.FC<ModalReportProps> = ({ handleClose, open, r
   }
 
   const { data: reviews } = useQuery({
-    queryKey: ['reviews', rentalId],
-    queryFn: () => getFeedbackById(rentalId),
+    queryKey: ['reviews-items', equipmentId, packageId],
+    queryFn: () =>
+      getFeedbackByEquipmentIdOfPackageId({
+        equipmentId,
+        packageId,
+      }),
     enabled: open,
   })
 
@@ -82,6 +95,10 @@ export const ModalFeedback: React.FC<ModalReportProps> = ({ handleClose, open, r
                 {/* Hiển thị số sao */}
                 <Rating value={review.rating} readOnly size="small" />
                 <Stack>
+                  {/* Tên người bình luận */}
+                  <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+                    Tên người đánh giá: {review.user.name}
+                  </Typography>
                   {/* Bình luận của người dùng */}
                   <strong>{review.comment}</strong>
                   <span style={{ fontSize: '0.875rem', color: '#666' }}>
@@ -113,7 +130,6 @@ export const ModalFeedback: React.FC<ModalReportProps> = ({ handleClose, open, r
         </Stack>
 
         {/* Form thêm đánh giá */}
-
         <Stack direction="column" alignItems="center" gap={2} border="1px solid #ddd" p={2} borderRadius={2}>
           <Controller
             name="rating"

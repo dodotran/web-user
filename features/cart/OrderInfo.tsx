@@ -232,30 +232,40 @@ const OrderInfo = ({ cart }: OrderInfoProps) => {
             <li>Bạn cũng có thể nhập mã giảm giá ở trang thanh toán.</li>
           </ul>
 
-          {currentUser?.statusIdentityDoc !== IdentityDocStatus.VERIFIED ? (
+          {!currentUser ? (
             <Stack spacing={2}>
-              <Typography variant="body2" sx={{ color: 'red' }}>
-                Tài khoản của bạn chưa được xác thực. Vui lòng xác thực tài khoản để có thể thuê thiết bị.
+              <Typography variant="body2" sx={{ color: 'red' }} textAlign="center">
+                Bạn cần đăng nhập để thanh toán
               </Typography>
             </Stack>
           ) : (
-            <Stack direction="row" spacing={6}>
-              <Stack width={800} bgcolor="base.white" borderRadius={1} spacing={3}>
-                <Typography fontSize={20} fontWeight={700}>
-                  Phương thức thanh toán online
-                </Typography>
+            <>
+              {currentUser && currentUser?.statusIdentityDoc !== IdentityDocStatus.VERIFIED ? (
+                <Stack spacing={2}>
+                  <Typography variant="body2" sx={{ color: 'red' }}>
+                    Tài khoản của bạn chưa được xác thực. Vui lòng xác thực tài khoản để có thể thuê thiết bị.
+                  </Typography>
+                </Stack>
+              ) : (
+                <Stack direction="row" spacing={6}>
+                  <Stack width={800} bgcolor="base.white" borderRadius={1} spacing={3}>
+                    <Typography fontSize={20} fontWeight={700}>
+                      Phương thức thanh toán online
+                    </Typography>
 
-                <PayPalButton
-                  amount={total}
-                  onSuccess={() => {
-                    handleSubmit(onSubmit)()
-                  }}
-                  onError={() => {
-                    toast.error('Thanh toán thất bại')
-                  }}
-                />
-              </Stack>
-            </Stack>
+                    <PayPalButton
+                      amount={total}
+                      onSuccess={() => {
+                        handleSubmit(onSubmit)()
+                      }}
+                      onError={() => {
+                        toast.error('Thanh toán thất bại')
+                      }}
+                    />
+                  </Stack>
+                </Stack>
+              )}
+            </>
           )}
         </Stack>
       </CardContent>

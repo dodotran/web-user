@@ -1,5 +1,10 @@
 import { CartInputType } from '@/features/cart/type'
-import { DamageReportInputType, FeedbackInputType, RentalResponseType } from '@/features/history-rental/type'
+import {
+  DamageReportInputType,
+  FeedbackInputType,
+  FeedbackItemInputType,
+  RentalResponseType,
+} from '@/features/history-rental/type'
 import request from '@/libs/configs/axios/axios'
 
 export const createRental = async (data: CartInputType) => {
@@ -22,6 +27,12 @@ export const feedbackRental = async (data: FeedbackInputType) => {
 
 export const damageReport = async (data: DamageReportInputType) => {
   const response = await request.post(`/damage-reports/create/by-me`, data)
+
+  return response.data
+}
+
+export const feedbackItem = async (data: FeedbackItemInputType) => {
+  const response = await request.post(`/feedbacks/create/rental-item`, data)
 
   return response.data
 }

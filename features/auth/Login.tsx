@@ -6,7 +6,6 @@ import { setAccessTokenToStorage } from '@/utils/localStorage'
 import { zodResolver } from '@hookform/resolvers/zod'
 import { Button, Stack, Typography } from '@mui/material'
 import { useMutation, useQueryClient } from '@tanstack/react-query'
-import Link from 'next/link'
 import { useRouter } from 'next/navigation'
 import { SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -27,7 +26,7 @@ export default function LoginForm({ onSwitch }) {
   const { mutate, isPending } = useMutation({
     mutationFn: login,
     onError: () => {
-      toast.success('Đăng nhập thất bại')
+      toast.error('Đăng nhập thất bại, vui lòng kiểm tra lại email hoặc mật khẩu')
     },
     onSuccess: async (data) => {
       toast.success('Đăng nhập thành công')
@@ -76,7 +75,7 @@ export default function LoginForm({ onSwitch }) {
         </Button>
 
         <Stack gap={0.5} justifyContent="center">
-          <Stack direction="row" alignItems="center" spacing="4px">
+          {/* <Stack direction="row" alignItems="center" spacing="4px">
             <Typography variant="body2" align="center">
               Bạn quên mật khẩu?
             </Typography>
@@ -89,7 +88,7 @@ export default function LoginForm({ onSwitch }) {
             >
               Quên mật khẩu?
             </Typography>
-          </Stack>
+          </Stack> */}
 
           <Stack direction="row" alignItems="center" spacing="4px">
             <Typography variant="body2" align="center">
