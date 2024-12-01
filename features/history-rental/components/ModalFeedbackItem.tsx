@@ -6,7 +6,7 @@ import { useGetMe } from '@/libs/hooks'
 import { getFeedbackByEquipmentIdOfPackageId } from '@/service/product.service'
 import { feedbackItem } from '@/service/rental.service'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Rating, Stack } from '@mui/material'
+import { Button, FormControl, FormHelperText, Rating, Stack, Typography } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -49,7 +49,7 @@ export const ModalFeedbackItem: React.FC<ModalReportProps> = ({
     mutationFn: feedbackItem,
     onSuccess: () => {
       queryClient.invalidateQueries({
-        queryKey: ['reviews-items', rentalId],
+        queryKey: ['reviews-items', equipmentId, packageId],
       })
       toast.success('Đánh giá thành công')
       reset()
@@ -75,7 +75,7 @@ export const ModalFeedbackItem: React.FC<ModalReportProps> = ({
         equipmentId,
         packageId,
       }),
-    enabled: !!equipmentId || !!packageId,
+    enabled: open,
   })
 
   return (
@@ -95,6 +95,10 @@ export const ModalFeedbackItem: React.FC<ModalReportProps> = ({
                 {/* Hiển thị số sao */}
                 <Rating value={review.rating} readOnly size="small" />
                 <Stack>
+                  {/* Tên người bình luận */}
+                  <Typography variant="h6" sx={{ mb: 1, fontWeight: 600 }}>
+                    Tên người đánh giá: {review.user.name}
+                  </Typography>
                   {/* Bình luận của người dùng */}
                   <strong>{review.comment}</strong>
                   <span style={{ fontSize: '0.875rem', color: '#666' }}>
@@ -126,13 +130,16 @@ export const ModalFeedbackItem: React.FC<ModalReportProps> = ({
         </Stack>
 
         {/* Form thêm đánh giá */}
-
         <Stack direction="column" alignItems="center" gap={2} border="1px solid #ddd" p={2} borderRadius={2}>
           <Controller
             name="rating"
             control={control}
             render={({ field }) => (
-              <Rating {...field} size="large" onChange={(_, newValue) => field.onChange(newValue)} />
+              <FormControl error={Boolean(errors.rating)} fullWidth>
+                {/* Nếu có lỗi, sẽ hiển thị thông báo lỗi */}
+                <Rating {...field} size="large" onChange={(_, newValue) => field.onChange(newValue)} />
+                {errors.rating && <FormHelperText>{errors.rating.message}</FormHelperText>}
+              </FormControl>
             )}
           />
           <Input control={control} label="Nội dung" name="comment" fullWidth />

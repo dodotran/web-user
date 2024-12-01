@@ -45,10 +45,6 @@ export function Notification() {
     setAnchorEl(null)
   }
 
-  const handleMarkAllAsRead = async () => {
-    await markAllAsReadMutation.mutateAsync()
-  }
-
   const handleMarkAsRead = async (id: string) => {
     await markAsReadMutation.mutateAsync(id)
   }

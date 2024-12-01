@@ -67,7 +67,7 @@ export const RentalHistoryItem = ({ rental }: { rental: RentalType }) => {
           <TableHead>
             <TableRow>
               <TableCell>Mã</TableCell>
-              <TableCell>Mã thiết bị</TableCell>
+              <TableCell>Mã thiết bị hoặc gói</TableCell>
               <TableCell>Số lượng</TableCell>
               <TableCell>Loại thời gian</TableCell>
               <TableCell>Đơn vị thời gian</TableCell>
@@ -80,7 +80,7 @@ export const RentalHistoryItem = ({ rental }: { rental: RentalType }) => {
               return (
                 <TableRow key={item.id}>
                   <TableCell>{item.id}</TableCell>
-                  <TableCell>{item.equipmentId}</TableCell>
+                  <TableCell>{item.equipmentId ?? item.packageId ?? '-'}</TableCell>
                   <TableCell>{item.quantity}</TableCell>
                   <TableCell>{item.durationType}</TableCell>
                   <TableCell>{item.durationValue}</TableCell>

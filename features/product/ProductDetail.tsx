@@ -113,7 +113,10 @@ export const ProductDetail = () => {
                 <Rating value={review.rating} readOnly size="small" />
                 <Stack>
                   {/* Bình luận của người dùng */}
-                  <strong>{review.comment}</strong>
+                  <p style={{ padding: 0, margin: 0 }}>Tên người đánh giá: {review.user.name}</p>
+                  <p style={{ padding: 0, margin: 0 }}>
+                    Nội dung: <strong>{review.comment}</strong>
+                  </p>
                   <span style={{ fontSize: '0.875rem', color: '#666' }}>
                     Ngày: {new Date(review.createdAt).toLocaleDateString('vi-VN')}
                   </span>

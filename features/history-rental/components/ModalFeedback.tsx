@@ -6,7 +6,7 @@ import { useGetMe } from '@/libs/hooks'
 import { getFeedbackById } from '@/service/product.service'
 import { feedbackRental } from '@/service/rental.service'
 import { zodResolver } from '@hookform/resolvers/zod'
-import { Button, Rating, Stack } from '@mui/material'
+import { Button, FormControl, FormHelperText, Rating, Stack } from '@mui/material'
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { Controller, SubmitHandler, useForm } from 'react-hook-form'
 import { toast } from 'sonner'
@@ -22,7 +22,12 @@ export const ModalFeedback: React.FC<ModalReportProps> = ({ handleClose, open, r
   const { data: meData } = useGetMe()
   const queryClient = useQueryClient()
 
-  const { control, handleSubmit, reset } = useForm<FeedbackInputType>({
+  const {
+    control,
+    handleSubmit,
+    reset,
+    formState: { errors },
+  } = useForm<FeedbackInputType>({
     defaultValues: {
       comment: '',
       rentalId,
@@ -57,6 +62,7 @@ export const ModalFeedback: React.FC<ModalReportProps> = ({ handleClose, open, r
   const { data: reviews } = useQuery({
     queryKey: ['reviews', rentalId],
     queryFn: () => getFeedbackById(rentalId),
+    enabled: open,
   })
 
   return (
@@ -113,7 +119,11 @@ export const ModalFeedback: React.FC<ModalReportProps> = ({ handleClose, open, r
             name="rating"
             control={control}
             render={({ field }) => (
-              <Rating {...field} size="large" onChange={(_, newValue) => field.onChange(newValue)} />
+              <FormControl error={Boolean(errors.rating)} fullWidth>
+                {/* Nếu có lỗi, sẽ hiển thị thông báo lỗi */}
+                <Rating {...field} size="large" onChange={(_, newValue) => field.onChange(newValue)} />
+                {errors.rating && <FormHelperText>{errors.rating.message}</FormHelperText>}
+              </FormControl>
             )}
           />
           <Input control={control} label="Nội dung" name="comment" fullWidth />

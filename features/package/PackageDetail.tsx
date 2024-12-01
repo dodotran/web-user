@@ -68,36 +68,38 @@ export const PackageDetail = () => {
           sm: 4,
         }}
       >
-        {data?.equipments?.length > 0 ? (
-          <Stack flex={4} direction="row" gap={1} rowGap={1}>
-            {data.equipments.map((equipment, index) => (
-              <Image
-                key={index}
-                src={equipment.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
-                alt={equipment?.name ?? 'image'}
-                width={200}
-                height={200}
-                onClick={() => router.push(`/products/${equipment.equipmentId}`)}
-                style={{
-                  cursor: 'pointer',
-                }}
-              />
-            ))}
-          </Stack>
-        ) : (
-          <Image
-            src={data.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
-            alt={data?.name ?? 'image'}
-            width={500}
-            height={500}
-            style={{
-              width: '100%',
-              height: '100%',
-              aspectRatio: '1/1',
-              flex: 4,
-            }}
-          />
-        )}
+        <Stack flex={1}>
+          {data?.equipments?.length > 0 ? (
+            <Stack flex={4} direction="row" gap={1} rowGap={1}>
+              {data.equipments.map((equipment, index) => (
+                <Image
+                  key={index}
+                  src={equipment.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
+                  alt={equipment?.name ?? 'image'}
+                  width={200}
+                  height={200}
+                  onClick={() => router.push(`/products/${equipment.equipmentId}`)}
+                  style={{
+                    cursor: 'pointer',
+                  }}
+                />
+              ))}
+            </Stack>
+          ) : (
+            <Image
+              src={data.image ?? 'https://cellphones.com.vn/media/wysiwyg/May-anh/DSLR/may-anh-dslr-1.jpg'}
+              alt={data?.name ?? 'image'}
+              width={500}
+              height={500}
+              style={{
+                width: '100%',
+                height: '100%',
+                aspectRatio: '1/1',
+                flex: 4,
+              }}
+            />
+          )}
+        </Stack>
 
         <ProductInformation {...data} type="package" />
       </Stack>
@@ -129,7 +131,10 @@ export const PackageDetail = () => {
                 <Rating value={review.rating} readOnly size="small" />
                 <Stack>
                   {/* Bình luận của người dùng */}
-                  <strong>{review.comment}</strong>
+                  <p style={{ padding: 0, margin: 0 }}>Tên người đánh giá: {review.user.name}</p>
+                  <p style={{ padding: 0, margin: 0 }}>
+                    Nội dung: <strong>{review.comment}</strong>
+                  </p>
                   <span style={{ fontSize: '0.875rem', color: '#666' }}>
                     Ngày: {new Date(review.createdAt).toLocaleDateString('vi-VN')}
                   </span>

@@ -1,5 +1,5 @@
 import { CategoryResponseData, EquipmentDetailType, EquipmentResponseType, ProductList } from '@/features'
-import { FeedbackByRentalIdResponseType } from '@/features/history-rental/type'
+import { FeedbackByRentalIdResponseType, ReviewList } from '@/features/history-rental/type'
 import request from '@/libs/configs/axios/axios'
 
 export async function getAllDevice() {
@@ -65,12 +65,12 @@ export async function getFeedbackByEquipmentIdOfPackageId({
   equipmentId?: string
   packageId?: string
 }) {
-  const response = await request.get<FeedbackByRentalIdResponseType>(`/feedbacks/by-equipment-or-package`, {
+  const response = await request.get<ReviewList>(`/feedbacks/by-equipment-or-package`, {
     params: {
       equipmentId,
       packageId,
     },
   })
 
-  return response.data.data
+  return response.data
 }

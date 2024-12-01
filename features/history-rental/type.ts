@@ -30,12 +30,23 @@ export type RentalResponseType = {
   data: RentalType[]
 }
 
-export const FeedbackInputSchema = z.object({
-  rating: z.number().min(0).max(5, 'Rating phải từ 1 đến 5'),
-  comment: z.string().min(1, 'Đánh giá không được để trống'),
-  userId: z.string().min(1, 'User ID không hợp lệ').optional(),
-  rentalId: z.string().min(1, 'Rental ID không hợp lệ').optional(),
-})
+export const FeedbackInputSchema = z
+  .object({
+    rating: z
+      .number()
+      .min(1, { message: 'Rating phải từ 1 đến 5' })
+      .max(5, { message: 'Rating phải từ 1 đến 5' })
+      .refine((val) => val !== null, {
+        message: 'Rating không được để trống',
+      }),
+    comment: z.string().min(1, 'Đánh giá không được để trống'),
+    userId: z.string().min(1, 'User ID không hợp lệ').optional(),
+    rentalId: z.string().min(1, 'Rental ID không hợp lệ').optional(),
+  })
+  .refine((data) => data.rating !== null, {
+    message: 'Rating không được để trống',
+    path: ['rating'], // Đảm bảo thông báo lỗi được áp dụng cho trường 'rating'
+  })
 
 export type FeedbackInputType = z.infer<typeof FeedbackInputSchema>
 
@@ -63,11 +74,57 @@ export type FeedbackByRentalIdResponseType = {
   data: FeedbackType[]
 }
 
-export const FeedbackItemInputSchema = z.object({
-  rating: z.number().min(0).max(5, 'Rating phải từ 1 đến 5'),
-  comment: z.string().min(1, 'Đánh giá không được để trống'),
-  userId: z.string().min(1, 'User ID không hợp lệ').optional(),
-  rentalItemId: z.string().min(1, 'Rental ID không hợp lệ').optional(),
-})
+export const FeedbackItemInputSchema = z
+  .object({
+    rating: z
+      .number()
+      .min(1, { message: 'Rating phải từ 1 đến 5' })
+      .max(5, { message: 'Rating phải từ 1 đến 5' })
+      .refine((val) => val !== null, {
+        message: 'Rating không được để trống',
+      }),
+    comment: z.string().min(1, 'Đánh giá không được để trống'),
+    userId: z.string().min(1, 'User ID không hợp lệ').optional(),
+    rentalItemId: z.string().min(1, 'Rental ID không hợp lệ').optional(),
+  })
+  .refine((data) => data.rating !== null, {
+    message: 'Rating không được để trống',
+    path: ['rating'], // Đảm bảo thông báo lỗi được áp dụng cho trường 'rating'
+  })
 
 export type FeedbackItemInputType = z.infer<typeof FeedbackItemInputSchema>
+
+export type UserType = {
+  id: string
+  name: string
+  email: string
+  emailVerified: string
+  password: string
+  role: 'user' | 'admin' | 'super-admin'
+  identityDoc: string
+  phoneNumber: string
+  dateOfBirth: string
+  avatar: string
+  gender: 'Nam' | 'Nữ' | 'Khác'
+  statusIdentityDoc: 'verified' | 'unverified'
+  createdAt: string
+  updatedAt: string
+}
+
+export type ReviewType = {
+  id: string
+  rating: number
+  comment: string
+  adminResponse: string | null
+  replyDate: string | null
+  userId: string
+  rentalId: string
+  rentalItemId: string
+  createdAt: string
+  updatedAt: string
+  rentalItem: RentalItemType
+  user: UserType
+}
+
+// Mảng dữ liệu review
+export type ReviewList = ReviewType[]
