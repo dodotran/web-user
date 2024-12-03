@@ -21,7 +21,10 @@ export type EquipmentType = {
   updatedAt: string
   category: CategoryType
   equipmentId: string
-  equipments: EquipmentType[]
+  equipments: {
+    equipmentId: string
+    equipment: EquipmentType
+  }[]
 }
 
 export type EquipmentResponseType = {

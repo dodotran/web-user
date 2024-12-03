@@ -70,15 +70,15 @@ export const PackageDetail = () => {
       >
         <Stack flex={1}>
           {data?.equipments?.length > 0 ? (
-            <Stack flex={4} direction="row" gap={1} rowGap={1}>
+            <Stack direction="row" gap={1} rowGap={1} flexWrap="wrap">
               {data.equipments.map((equipment, index) => (
                 <Image
                   key={index}
                   src={
-                    equipment.image ??
+                    equipment.equipment.image ??
                     'https://media.istockphoto.com/id/1409329028/vector/no-picture-available-placeholder-thumbnail-icon-illustration-design.jpg?s=612x612&w=0&k=20&c=_zOuJu755g2eEUioiOUdz_mHKJQJn-tDgIAhQzyeKUQ='
                   }
-                  alt={equipment?.name ?? 'image'}
+                  alt={equipment.equipment.name ?? 'image'}
                   width={200}
                   height={200}
                   onClick={() => router.push(`/products/${equipment.equipmentId}`)}
