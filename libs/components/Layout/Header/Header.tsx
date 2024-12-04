@@ -10,6 +10,7 @@ import { useRouter } from 'next/navigation'
 import { Account } from './Account'
 import { menu } from './menu'
 import { Notification } from './Notification'
+import { Search } from './Search'
 
 export const HEADER_HEIGHT = 120
 
@@ -101,6 +102,8 @@ export const Header = () => {
 
         {/* Actions */}
         <Stack direction="row" justifyContent="space-between" gap={2} alignItems="center">
+          <Search />
+
           <Account />
 
           <IconButton
